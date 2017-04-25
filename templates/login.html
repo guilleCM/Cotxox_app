@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+    	html, body{
+    		height: 100%;
+    		width: 100%;
+    		background-color: red;
+    	}
+    </style>
+    <div class="row">
+    <div class="col s12 m8 offset-m2">
+	    <div class="card-panel">
+	    	<h2 style="text-align: center">Login</h2>
+	    	<div class="row">
+	    		<div class="col s12 m4">
+	          		<label for="username">Username</label>
+	    			<input placeholder="Username" id="username" type="text" class="validate">
+	    		</div>
+	    		<div class="col s12 m8">
+	          		<label for="email">Email</label>
+	    			<input placeholder="email" id="email" type="email" class="validate">
+	    		</div>
+	    		<div class="col s12 m6">
+	    			<label for="first">First Name</label>
+	    			<input placeholder="First name" id="first" type="text" class="validate">	  
+	    		</div>
+	    		<div class="col s12 m6">
+	          		<label for="last">Last Name</label>
+	    			<input placeholder="Last name" id="last" type="text" class="validate">
+	    		</div>
+	    	</div>
+	    </div>
+    </div>
+    	
+    </div>
+{% endblock %}
