@@ -13,21 +13,39 @@
 	    <div class="card-panel">
 	    	<h2 style="text-align: center">Login</h2>
 	    	<div class="row">
-	    		<div class="col s12 m4">
+	    		<div class="input-field col s12 m4">
+	    			<i class="material-icons prefix">account_circle</i>
+	    			<input placeholder="Username" id="username" type="text" class="validate" value="{{ demo.username }}" disabled> 
 	          		<label for="username">Username</label>
-	    			<input placeholder="Username" id="username" type="text" class="validate">
 	    		</div>
+	    		<div class="col s12 m4">
+	          		<label for="pasword">Password</label>
+	    			<input placeholder="Password" id="password" type="text" class="validate" value="{{ demo.password }}">
+	    		</div>
+	    		
 	    		<div class="col s12 m8">
 	          		<label for="email">Email</label>
-	    			<input placeholder="email" id="email" type="email" class="validate">
+	    			<input placeholder="email" id="email" type="email" class="validate" value="{{ demo.email }}">
 	    		</div>
-	    		<div class="col s12 m6">
+	    		<div class="col s12 m4">
+	          		<label for="tarjeta">Tarjeta</label>
+	    			<input placeholder="Tarjeta" id="tarjeta" type="text" class="validate">
+	    		</div>
+	    		<div class="col s12 m4">
 	    			<label for="first">First Name</label>
 	    			<input placeholder="First name" id="first" type="text" class="validate">	  
 	    		</div>
-	    		<div class="col s12 m6">
+	    		<div class="col s12 m4">
 	          		<label for="last">Last Name</label>
 	    			<input placeholder="Last name" id="last" type="text" class="validate">
+	    		</div>
+	    		<div class="col s12 m4">
+	          		<label for="foto">Foto</label>
+	    			<input placeholder="Foto" id="foto" type="text" class="validate">
+	    		</div>
+	    		<div class="col s12 m4">
+	          		<label for="saldo">Saldo</label>
+	    			<input placeholder="Saldo" id="saldo" type="number" class="validate">
 	    		</div>
 	    	</div>
 	    </div>
