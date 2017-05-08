@@ -35,5 +35,8 @@ class User(db.Model):
     def get_id(self):
         return unicode(self.id)
 
+    def get_password(self):
+        return self.password
+
     def __repr__(self):
         return '<id %r>, <User %r>, <Password %r>, <Email %r>, <Nombre %r>, <Apellidos %r>, <Foto Perfil %r>, <Saldo %r>, <Tarjeta %r>' % (self.id, self.username, self.password, self.email, self.nombre, self.apellidos, self.fotoPerfil, self.saldo, self.idTarjeta)
