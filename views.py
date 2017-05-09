@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, session, request
-from forms import LoginForm
+from forms import LoginForm, SignupForm
 from datetime import timedelta
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -14,8 +14,9 @@ def index():
 
 @app.route('/signup')
 def signup():
-	demo = User.query.filter_by(username='demo').first()
-	return render_template("signup.html")
+	form = SignupForm()
+	return render_template("signup.html",
+							form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
