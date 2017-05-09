@@ -2,7 +2,8 @@
 
 {% block content %}
     <h1>Index</h1>
-{% if user.is_authenticated %}
-  Hi {{ user.email }}!
+{% if current_user.is_authenticated %}
+  Hi {{ current_user.username }}!
 {% endif %}
+
 {% endblock %}

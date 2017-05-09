@@ -19,35 +19,27 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	form = LoginForm(request.form)
-	if request.method == 'POST' and form.validate_on_submit():
+	form = LoginForm()
+	if form.validate_on_submit():
 		email = form.email.data
 		password = form.password.data
-		session['logged_in'] = True
 		user = User.query.filter_by(email=email).first()
-		if(user != None):
-			if(user.get_password() == password):
-				return redirect(url_for('index'))
-			else:
-				flash('Incorrect password', 'red')
-				redirect(url_for('login'))
+		if user is not None and user.get_password() == password:
+			# numId = user.get_id()
+			login_user(user)
+			flash('You are now logged in', 'green')
+			return redirect(url_for('index'))
 		else:
-			flash('Incorrect email', 'red')
-			redirect(url_for('login'))
-	
+			flash('Incorrect login', 'red')
+			return redirect(url_for('login'))
+
 	return render_template("login.html",
 							form=form,
 							)
 
-
-@app.before_request
-def before_request():
-	session.permanent = True
-	app.permanent_session_lifetime = timedelta(minutes=5)
-
 @login_manager.user_loader
-def load_user(user_email):
-	return User.query.filter_by(email=user_email).first()
+def load_user(id):
+	return User.query.get(int(id))
 
 @app.route("/logout")
 @login_required
