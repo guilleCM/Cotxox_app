@@ -8,24 +8,6 @@
 </head>
 
 <body>
-	<div class="card">
-		{% with messages = get_flashed_messages(with_categories=true) %}
-		{% if messages %}
-		<div class="row flash-alerts">
-			{% for category, message in messages %}
-			<div class="col s12">
-				<div class="card {{ category }}">
-					<div class="card-content white-text">
-						<span>{{ message }}</span><span class="right cross-button">x</span>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-		{% endif %}
-		{% endwith %}
-	</div>
-
 	{% block content %}{% endblock %}
 	<!--Import jQuery before materialize.js-->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

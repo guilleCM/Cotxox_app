@@ -9,6 +9,13 @@
 
 <body>
 	<style>
+		body {
+			background-image: url('../static/img/backgrounds/vertical-mobile.jpg');
+			background-size: cover;
+		}
+		html {
+			height: 100%;
+		}
 		.login-form {
 			display: flex;
 			position: absolute;
@@ -27,10 +34,29 @@
 		.cross-button {
 			cursor: pointer;
 		}
+		.card {
+			background-color: rgba(255,255,255,0.7);
+		}
+		.input-field label {
+			color: black;
+		}
+		::-webkit-input-placeholder {
+			color: rgba(0,0,0,0.5);
+		}
+		@media(min-width: 760px) {
+			body {
+				background-image: url('../static/img/backgrounds/vertical-tablet.jpg')
+			}
+		}
+		@media(min-width: 1281px) {
+			body {
+				background-image: url('../static/img/backgrounds/horizontal-desktop.jpg')
+			}
+		}
 	</style>
 	<div class="container-fluid login-form">
 		<div class="row valign-wrapper">
-			<div class="col s8 offset-s2 valign">
+			<div class="col s10 offset-s1 valign">
 				<div class="card">
 				{% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -57,12 +83,12 @@
 								<div class="input-field col s12">
 					    			<i class="material-icons prefix">email</i>
 					          		<label for="email">Email</label>
-					    			{{ form.email(placeholder="Example@email.com", id="email", type="email", class="validate") }}
+					    			{{ form.email(placeholder="Example@email.com", id="email", type="email", class="validate", required="true") }}
 				    			</div>
 				    			<div class="input-field col s12">
 					    			<i class="material-icons prefix">vpn_key</i>
 					          		<label for="password">Password</label>
-					    			{{ form.password(placeholder="password", id="password", type="password", class="validate") }}
+					    			{{ form.password(placeholder="password", id="password", type="password", class="validate", required="true") }}
 				    			</div>
 			    			</div>
 		    		</div>

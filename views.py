@@ -27,12 +27,10 @@ def login():
 		if user is not None and user.get_password() == password:
 			# numId = user.get_id()
 			login_user(user)
-			flash('You are now logged in', 'green')
 			return redirect(url_for('index'))
 		else:
 			flash('Incorrect login', 'red')
 			return redirect(url_for('login'))
-
 	return render_template("login.html",
 							form=form,
 							)
