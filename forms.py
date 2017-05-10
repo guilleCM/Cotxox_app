@@ -9,6 +9,7 @@ class LoginForm(FlaskForm):
 class SignupForm(FlaskForm):
 	username = StringField('username')
 	password = PasswordField('password')
+	repeatPassword = PasswordField('repeatpassword')
 	email = StringField('email')
 	firstName = StringField('firstName')
 	lastName = StringField('lastName')
