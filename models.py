@@ -4,24 +4,22 @@ from app import db
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column('user_id', db.Integer, primary_key=True)
-    username = db.Column('username', db.String(20), unique=True, index=True)
     password = db.Column('password', db.String(20))
-    email = db.Column('email', db.String(20))
-    nombre = db.Column('nombre', db.String(20))
-    apellidos = db.Column('apellidos', db.String(40))
-    fotoPerfil = db.Column('fotoPerfil', db.String(60))
-    saldo = db.Column('saldo', db.Float(2))
-    idTarjeta = db.Column('tarjeta', db.String(20))
+    email = db.Column('email', db.String(20), unique=True, index=True)
+    firstName = db.Column('firstName', db.String(20))
+    lastName = db.Column('lastName', db.String(40))
+    profilePhoto = db.Column('profilePhoto', db.String(60))
+    balance = db.Column('balance', db.Float(2))
+    cardNumber = db.Column('cardNumber', db.String(20))
 
-    def __init__(self, username, password, email, nombre, apellidos, fotoPerfil, saldo, idTarjeta):
-        self.username = username
+    def __init__(self, password, email, firstName, lastName, profilePhoto='', balance=0.0, cardNumber=''):
         self.password = password
         self.email = email
-        self.nombre = nombre
-        self.apellidos = apellidos
-        self.fotoPerfil = fotoPerfil
-        self.saldo = saldo
-        self.idTarjeta = idTarjeta
+        self.firstName = firstName
+        self.lastName = lastName
+        self.profilePhoto = profilePhoto
+        self.balance = balance
+        self.cardNumber = cardNumber
 
     def is_authenticated(self):
         return True
@@ -39,4 +37,4 @@ class User(db.Model):
         return self.password
 
     def __repr__(self):
-        return '<id %r>, <User %r>, <Password %r>, <Email %r>, <Nombre %r>, <Apellidos %r>, <Foto Perfil %r>, <Saldo %r>, <Tarjeta %r>' % (self.id, self.username, self.password, self.email, self.nombre, self.apellidos, self.fotoPerfil, self.saldo, self.idTarjeta)
+        return '<id %r>, <Password %r>, <Email %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Balance %r>, <Card Number %r>' % (self.id, self.password, self.email, self.firstName, self.lastName, self.profilePhoto, self.balance, self.cardNumber)
