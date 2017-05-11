@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+		body {
+			background-image: url('../static/img/backgrounds/vertical-mobile.jpg');
+			background-size: cover;
+		}
+		html {
+			height: 100%;
+		}
+		.login-form {
+			display: flex;
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+		}
+		.login-form .row {
+			margin: 0 auto;
+		}
+		.valign-wrapper {
+			width: 100%;
+			margin: 0px;
+		}
+		.card {
+			background-color: rgba(255,255,255,0.8);
+		}
+		.cross-button {
+			cursor: pointer;
+		}
+		.input-field label {
+			color: black;
+		}
+		::-webkit-input-placeholder {
+			color: rgba(0,0,0,0.5);
+		}
+		@media(min-width: 760px) {
+			body {
+				background-image: url('../static/img/backgrounds/vertical-tablet.jpg')
+			}
+		}
+		@media(min-width: 1281px) {
+			body {
+				background-image: url('../static/img/backgrounds/horizontal-desktop.jpg')
+			}
+		}
+    </style>
+
+<div class="container-fluid login-form">
+	<div class="row valign-wrapper">
+		<div class="col s10 m8 l6 offset-m2 offset-l3 offset-s1 valign">
+		    <div class="card">
+		    		{% with messages = get_flashed_messages(with_categories=true) %}
+	                {% if messages %}
+					<div class="row flash-alerts">
+						{% for category, message in messages %}
+						<div class="col s12">
+							<div class="card {{ category }}">
+								<div class="card-content white-text">
+									<span>{{ message }}</span><span class="right cross-button">x</span>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					{% endif %}
+	                {% endwith %}
+				<form role="form" method="post">
+				 {{ form.hidden_tag() }}
+				<div class="card-content">
+					<span class="card-title center">Signup</span>
+					<hr><br>
+				    	<div class="row">
+				
+				    		<div class="input-field col s12 m6">
+				    			<i class="material-icons prefix">assignment</i>
+				    			<label for="firstName">First Name</label>
+				    			{{ form.firstName(placeholder="First Name", id="firstName", type="text", class="validate", required="true") }}  
+				    		</div>
+
+				    		<div class="input-field col s12 m6">
+				    			<i class="material-icons prefix">assignment</i>
+				          		<label for="lastName">Last Name</label>
+				    			{{ form.lastName(placeholder="Last Name", id="lastName", type="text", class="validate", required="true") }}
+				    		</div>
+				    		
+				    		<div class="input-field col s12 m12">
+				    			<i class="material-icons prefix">email</i>
+				          		<label for="email">Email</label>
+				          		{{ form.email(placeholder="Example@email.com", id="email", type="email", class="validate", required="true") }}
+				    		</div>
+
+				    		<div class="input-field col s12 m6">
+				    			<i class="material-icons prefix">vpn_key</i>
+				          		<label for="password">Password</label>
+				          		{{ form.password(placeholder="Password", id="password", type="password", class="validate", required="true") }}
+				    		</div>
+
+				    		<div class="input-field col s12 m6">
+				    			<i class="material-icons prefix">vpn_key</i>
+				          		<label for="repeatPassword">Confirm Password</label>
+								{{ form.repeatPassword(placeholder="Password", id="repeatPassword", type="password", class="validate", required="true") }}
+				    		</div>
+				    	</div>
+			    </div>
+		    	<div class="card-action">
+    				<div class="row">
+	    				<button type="submit" action="submit" class="btn btn-large waves-effect col s6 offset-s3"> Register
+	    				<i class="material-icons right">send</i>
+	    				</button>
+	    			</div>
+	    		</div>
+	    		</form>
+		    </div>
+    	</div>
+    </div>
+</div>
+{% endblock %}

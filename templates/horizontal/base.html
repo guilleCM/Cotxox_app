@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link type="text/css" rel="stylesheet" href="../static/css/materialize.min.css"  media="screen,projection"/>
+	<!-- <link type="text/css" rel="stylesheet" href="../static/css/custom.css"  media="screen,projection"/> -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+	<nav>
+	<style>
+		#profile {
+			margin-top: 65px;
+		}
+		.badge {
+			border-radius: 5px;
+		}
+
+	</style>
+		<ul id="profile" class="dropdown-content" style="width:auto !important;">
+			<li><a href="#!">Profile</a></li>
+			<li><a href="#!">Messages <span class="new badge" data-badge-caption="">5</span></a></li>
+			<li class="divider"></li>
+			<li><a href="#!">Logout</a></li>
+		</ul>
+		<div class="nav-wrapper">
+			<div class="row">
+				<div class="col s2 offset-s1">
+				<a href="#!" class="brand-logo left">Logo</a>
+				</div>
+				<a href="#" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons">menu</i></a>
+				<div class="col s6">
+				<ul class="hide-on-med-and-down">
+					<li><a href="sass.html">Home</a></li>
+					<li><a href="badges.html">Cotxox APP</a></li>
+					<li><a href="collapsible.html">FAQ</a></li>
+					<li><a href="mobile.html">Contact</a></li>
+				</ul>
+				</div>
+				<div class="col s3 right">
+					<ul class="hide-on-med-and-down">
+						<li style="width: 100%;"><a class="dropdown-button" href="#!" data-activates="profile"><i class="material-icons left">person_pin</i>{{ current_user.firstName }}<i class="material-icons right">arrow_drop_down</i></a></li>
+					</ul>
+				</div>
+				<ul class="side-nav" id="mobile-demo">
+					<li><a href="sass.html">Home</a></li>
+					<li><a href="badges.html">Cotxox APP</a></li>
+					<li><a href="collapsible.html">FAQ</a></li>
+					<li><a href="mobile.html">Contact</a></li>
+					<li><a href="mobile.html">Profile/Signup</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	{% block content %}{% endblock %}
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../static/js/materialize.min.js"></script>
+	<!-- custom script -->
+	<script>
+		$('.cross-button').click(function() {
+			$('.flash-alerts').fadeOut("slow", function() {
+			});
+		});
+		$(".button-collapse").sideNav();
+	</script>
+</body>
