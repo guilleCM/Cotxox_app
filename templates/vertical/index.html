@@ -16,13 +16,15 @@
     <script>
         function initMap() {
         var uluru = {lat: 39.568853, lng:  2.667422};
+        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/'
         var map = new google.maps.Map(document.getElementById('googleMap'), {
           zoom: 16,
           center: uluru
         });
         var marker = new google.maps.Marker({
           position: uluru,
-          map: map
+          map: map,
+          icon: iconBase + 'parking_lot_maps.png'
         });
       }
     </script>
