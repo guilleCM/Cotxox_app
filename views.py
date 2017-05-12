@@ -6,7 +6,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from middleware.Utils import Utils
 
 from app import app, db, login_manager
-from models import User
+from models import Users
 
 @app.route('/')
 @app.route('/index')
@@ -25,13 +25,13 @@ def signup():
 		email = form.email.data
 		password = form.password.data
 		repeatPassword = form.repeatPassword.data
-		if User.query.filter_by(email=email).first() is not None:
+		if Users.query.filter_by(email=email).first() is not None:
 			flash('This email is already in use! Please try with another one', 'red')
 			return redirect(url_for('signup'))
 		if password != repeatPassword:
 			flash('The password fields doesn\'t match!', 'red')
 			return redirect(url_for('signup'))
-		new_user = User(password, email, firstName, lastName)
+		new_user = Users(email, password, firstName, lastName)
 		db.session.add(new_user)
 		db.session.commit()
 		flash('Succesfully registered. Now you can log in', 'green')
@@ -47,7 +47,7 @@ def login():
 	if form.validate_on_submit():
 		email = form.email.data
 		password = form.password.data
-		user = User.query.filter_by(email=email).first()
+		user = Users.query.filter_by(email=email).first()
 		if user is not None and user.get_password() == password:
 			# numId = user.get_id()
 			login_user(user)
@@ -61,7 +61,7 @@ def login():
 
 @login_manager.user_loader
 def load_user(id):
-	return User.query.get(int(id))
+	return Users.query.get(int(id))
 
 @app.route("/logout")
 @login_required

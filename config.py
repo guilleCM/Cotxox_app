@@ -1,3 +1,9 @@
+import os
+
 DEBUG = True
 SECRET_KEY = 'superdificil'
-SQLALCHEMY_DATABASE_URI = 'sqlite:///db/cotxox.db'
+
+#DATABASE CONNECTION
+basedir = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/cotxox.db')
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
