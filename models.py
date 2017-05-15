@@ -13,15 +13,6 @@ class Users(db.Model):
     rates = db.relationship('Rates', backref='user', lazy='dynamic')
     rides = db.relationship('Rides', backref='user', lazy='dynamic')
 
-
-    # def __init__(self, email, password, firstName, lastName, profilePhoto='', creditCard=''):
-    #     self.email = email
-    #     self.password = password
-    #     self.firstName = firstName
-    #     self.lastName = lastName
-    #     self.profilePhoto = profilePhoto
-    #     self.creditCard = creditCard
-
     def is_authenticated(self):
         return True
 
@@ -38,8 +29,8 @@ class Users(db.Model):
         return self.password
 
     def __repr__(self):
-        # return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Credit Card Number %r>' % (self.id, self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.creditCard)
-        return '<Email %r>' % (self.email)
+        return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Credit Card Number %r>' % (self.id, self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.creditCard)
+
 
 class Drivers(db.Model):
     __tablename__ = 'Drivers'
@@ -56,35 +47,21 @@ class Drivers(db.Model):
     rates = db.relationship('Rates', backref='driver', lazy='dynamic')
     rides = db.relationship('Rides', backref='driver', lazy='dynamic')
 
-
-    # def __init__(self, email, password, firstName, lastName, carLicense, profilePhoto='', carPhoto='', isBusy=False, carModel=''):
-    #     self.email = email
-    #     self.password = password
-    #     self.firstName = firstName
-    #     self.lastName = lastName
-    #     self.profilePhoto = profilePhoto
-    #     self.carPhoto = carPhoto
-    #     self.isBusy = isBusy
-    #     self.carModel = carModel
-    #     self.carLicense = carLicense
-
     def __repr__(self):
-        # return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Car Photo %r>, <Is Busy %r>, <Car Model %r>, <Car License %r>' % (self.id, self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.carPhoto, str(self.isBusy), self.carModel, self.carLicense)
-        return '<Email %r>' % (self.email)
+        return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Car Photo %r>, <Is Busy %r>, <Car Model %r>, <Car License %r>' % (self.id, self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.carPhoto, str(self.isBusy), self.carModel, self.carLicense)
 
 class Rates(db.Model):
     __tablename__ = 'Rates' 
     id = db.Column('rate_id', db.Integer, primary_key=True)
     rate = db.Column('rate', db.Float(4), index=True)
-    #la valoracion esta asociada a un usuario
+    # la valoracion esta asociada a un usuario
     idUser = db.Column(db.Integer, db.ForeignKey('Users.user_id'))
-    #la valoracion esta asociada a un conductor
+    # la valoracion esta asociada a un conductor
     idDriver = db.Column(db.Integer, db.ForeignKey('Drivers.driver_id'))
     rides = db.relationship('Rides', backref='rate', lazy='dynamic')
 
     def __repr__(self):
-        # return '<Id Post %r>, <Rate %r>, <Id User %r>, <Id Driver %r>' % (self.id, self.rate, self.idUser, self.idDriver)
-        return '<Rate %r>' % str(self.rate)
+        return '<Id Post %r>, <Rate %r>, <Id User %r>, <Id Driver %r>' % (self.id, self.rate, self.idUser, self.idDriver)
 
 class Rides(db.Model): 
     __tablename__ = 'Rides' 
@@ -103,4 +80,4 @@ class Rides(db.Model):
     idRate = db.Column(db.Integer, db.ForeignKey('Rates.rate_id'))
 
     def __repr__(self):
-        return '<Id User %r>, <Id Driver %r>, <Id Rate %r>' % (self.idUser, self.idDriver, self.idRate) 
+        return '<id %r>, <Start Point %r>, <End Point %r>, <Expected Time(min) %r>, <Cost %r>, <Tip %r>, <Credit Card %r>, <Id User %r>, <Id Driver %r>, <Id Rate %r>' % (self.id, self.startPoint, self.endPoint, self.expectedTimeMin, self.cost, self.tip, self.creditCard, self.idUser, self.idDriver, self.idRate) 
