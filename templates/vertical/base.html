@@ -26,6 +26,7 @@
       width: 100%;
       position: fixed;
       bottom: 0px;
+      z-index: 100;
     }
     .row{
       margin-bottom: 0px;
@@ -36,21 +37,49 @@
     .button-custom{
       margin: auto;
     }
+    .content-block {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+    }
+    .sub-background {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background-image: url("../../static/img/backgrounds/clean_textile.png");
+      opacity: 0.7;
+      z-index: 8;
+    }
+    .main-background{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background-image: url("../../static/img/backgrounds/clean_textile.png");
+      z-index: 10;
+    }
   </style>
 	
   <div class="container-fluid">
     <div class="row general-content">
-
+      <div id="chat-content" class="sub-background">
+        <div id="chat" class="content-block">{% block content_chat %}{% endblock %}</div>
+      </div>
+      <div id="navigation-content" class="main-background">
+        <div id="navigation" class="content-block">{% block content_navigation %}{% endblock %}</div>
+      </div>
+      <div id="profile-content" class="sub-background">
+        <div id="profile" class="content-block">{% block content_profile %}{% endblock %}</div>
+      </div>
     </div>
     <div class="row bottom-content center">
       <div class="col s4 full-height valign-wrapper">
-        <a href="#" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">menu</i> </a>
+        <a href="#" id="chat-button" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">menu</i> </a>
       </div>
       <div class="col s4 full-height valign-wrapper">
-        <a href="#" class="btn btn-large btn-floating pulse valign button-custom cyan"> <i class="material-icons">menu</i> </a>
+        <a href="#" id="navigation-button" class="btn btn-large btn-floating pulse valign button-custom cyan"> <i class="material-icons">menu</i> </a>
       </div>
       <div class="col s4 full-height valign-wrapper">
-        <a href="#" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">menu</i> </a>
+        <a href="#" id="profile-button" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">menu</i> </a>
       </div>
     </div>
   </div>
@@ -60,9 +89,7 @@
 	<script type="text/javascript" src="../static/js/materialize.min.js"></script>
 	<!-- custom script -->
 	<script>
-    $(document).ready(function(){
-      $('ul.tabs').tabs();
-    });    
+     
 	</script>
   <!--Import scripts from views-->
   {% block javascript %}{% endblock %}
