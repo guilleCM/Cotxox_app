@@ -10,10 +10,17 @@ class Users(db.Model):
     lastName = db.Column('lastName', db.String(40), index=True)
     profilePhoto = db.Column('profilePhoto', db.String(60), index=True, default='')
     creditCard = db.Column('creditCard', db.String(16), index=True, default='')
-    #un usuario puede tener asociadas muchas valoraciones
-    userRates = db.relationship('Rates', backref='Users', lazy='dynamic')
-    #un usuario puede tener asociadas muchas carreras
-    userRides = db.relationship('Rides', backref='Users', lazy='dynamic')
+    rates = db.relationship('Rates', backref='user', lazy='dynamic')
+    rides = db.relationship('Rides', backref='user', lazy='dynamic')
+
+
+    # def __init__(self, email, password, firstName, lastName, profilePhoto='', creditCard=''):
+    #     self.email = email
+    #     self.password = password
+    #     self.firstName = firstName
+    #     self.lastName = lastName
+    #     self.profilePhoto = profilePhoto
+    #     self.creditCard = creditCard
 
     def is_authenticated(self):
         return True
@@ -31,8 +38,8 @@ class Users(db.Model):
         return self.password
 
     def __repr__(self):
-        return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Credit Card Number %r>' % (str(self.id), self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.creditCard)
-
+        # return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Credit Card Number %r>' % (self.id, self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.creditCard)
+        return '<Email %r>' % (self.email)
 
 class Drivers(db.Model):
     __tablename__ = 'Drivers'
@@ -46,41 +53,54 @@ class Drivers(db.Model):
     isBusy = db.Column('isBusy', db.Boolean(), index=True, default=True)
     carModel = db.Column('carModel', db.String(30), index=True, default='')
     carLicense = db.Column('carLicense', db.String(7), unique=True, index=True)
-    driverRates = db.relationship('Rates', backref='Drivers', lazy='dynamic')
-    driverRides = db.relationship('Rides', backref='Drivers', lazy='dynamic')
+    rates = db.relationship('Rates', backref='driver', lazy='dynamic')
+    rides = db.relationship('Rides', backref='driver', lazy='dynamic')
+
+
+    # def __init__(self, email, password, firstName, lastName, carLicense, profilePhoto='', carPhoto='', isBusy=False, carModel=''):
+    #     self.email = email
+    #     self.password = password
+    #     self.firstName = firstName
+    #     self.lastName = lastName
+    #     self.profilePhoto = profilePhoto
+    #     self.carPhoto = carPhoto
+    #     self.isBusy = isBusy
+    #     self.carModel = carModel
+    #     self.carLicense = carLicense
 
     def __repr__(self):
-        return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Car Photo %r>, <Is Busy %r>, <Car Model %r>, <Car License %r>' % (str(self.id), self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.carPhoto, str(self.isBusy), self.carModel, self.carLicense)
-
+        # return '<id %r>, <Email %r>, <Password %r>, <First Name %r>, <Last Name %r>, <Profile Photo %r>, <Car Photo %r>, <Is Busy %r>, <Car Model %r>, <Car License %r>' % (self.id, self.email, self.password, self.firstName, self.lastName, self.profilePhoto, self.carPhoto, str(self.isBusy), self.carModel, self.carLicense)
+        return '<Email %r>' % (self.email)
 
 class Rates(db.Model):
-    __tablename__ = 'Rates'
+    __tablename__ = 'Rates' 
     id = db.Column('rate_id', db.Integer, primary_key=True)
     rate = db.Column('rate', db.Float(4), index=True)
     #la valoracion esta asociada a un usuario
     idUser = db.Column(db.Integer, db.ForeignKey('Users.user_id'))
     #la valoracion esta asociada a un conductor
     idDriver = db.Column(db.Integer, db.ForeignKey('Drivers.driver_id'))
+    rides = db.relationship('Rides', backref='rate', lazy='dynamic')
 
     def __repr__(self):
-        return '<Id Post %r>, <Rate %r>, <Id User %r>, <Id Driver %r>' % (str(self.id), str(self.rate), str(self.idUser), str(self.idDriver))
+        # return '<Id Post %r>, <Rate %r>, <Id User %r>, <Id Driver %r>' % (self.id, self.rate, self.idUser, self.idDriver)
+        return '<Rate %r>' % str(self.rate)
 
-
-class Rides(db.Model):
-    __tablename__ = 'Rides'
-    id = db.Column('ride_id', db.Integer, primary_key=True)
-    startPoint = db.Column('startPoint', db.String(50), index=True)
-    endPoint = db.Column('endPoint', db.String(50), index=True)
-    expectedTimeMin = db.Column('expectedTimeMin', db.Integer, index=True)
-    cost = db.Column('cost', db.Float(4), index=True)
-    tip = db.Column('tip', db.Float(4), index=True, default=0.0)
-    creditCard = db.Column('creditCard', db.String(16), index=True)
-    # una carrera esta asociada a un usuario
-    idUser = db.Column(db.Integer, db.ForeignKey('Users.user_id'))
-    # una carrera esta asociada a un conductor
-    idDriver = db.Column(db.Integer, db.ForeignKey('Drivers.driver_id'))
-    # una carrera esta asociada a una valoracion
+class Rides(db.Model): 
+    __tablename__ = 'Rides' 
+    id = db.Column('ride_id', db.Integer, primary_key=True) 
+    startPoint = db.Column('startPoint', db.String(50), index=True) 
+    endPoint = db.Column('endPoint', db.String(50), index=True) 
+    expectedTimeMin = db.Column('expectedTimeMin', db.Integer, index=True) 
+    cost = db.Column('cost', db.Float(4), index=True) 
+    tip = db.Column('tip', db.Float(4), index=True, default=0.0) 
+    creditCard = db.Column('creditCard', db.String(16), index=True) 
+    # una carrera esta asociada a un usuario 
+    idUser = db.Column(db.Integer, db.ForeignKey('Users.user_id')) 
+    # una carrera esta asociada a un conductor 
+    idDriver = db.Column(db.Integer, db.ForeignKey('Drivers.driver_id')) 
+    # una carrera esta asociada a una valoracion 
     idRate = db.Column(db.Integer, db.ForeignKey('Rates.rate_id'))
 
-    def __repr__(self): 
-        return '<Id Ride %r>, <Start Point %r>, <End Point %r>, <Expected Time(min) %r>, <Cost %r>, <Tip %r>, <Credit Card %r>, <Id User %r>, <Id Driver %r>, <Id Rate %r>' % (str(self.id), self.startPoint, self.endPoint, str(self.expectedTimeMin), str(self.cost), str(self.tip), self.creditCard, str(self.idUser), str(self.idDriver), str(self.idRate))
+    def __repr__(self):
+        return '<Id User %r>, <Id Driver %r>, <Id Rate %r>' % (self.idUser, self.idDriver, self.idRate) 
