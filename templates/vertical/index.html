@@ -5,7 +5,29 @@
 {% endblock %}
 
 {% block content_tab2 %}
-    <div id="googleMap" style="width: 100%;height:75%;"></div>
+    <div class="row" style="height:70%; margin-top: 5%;">
+        <div id="googleMap" class="col s12" style="width: 100%;height:100%;"></div>    
+    </div>
+    <div class="row" style="height: 15%">
+        <br>
+        <div class="col s10 offset-s1 input-field">
+            <i class="material-icons prefix">my_location</i>
+            <input class="validate" name="destination" type="text" id="destination" placeholder="Where you wanna go?"></input>
+            <label for="destination">Destination</label>
+        </div>
+        <div class="col s10 offset-s1 input-field">
+            <i class="material-icons prefix">my_location</i>
+            <input class="validate" name="from" type="text" id="from" value="IES Borja Moll"></input>
+            <label for="from">From</label>
+        </div>
+    </div>
+    <div class="row" style="height:10%">
+        <div class="col s10 offset-s1" style="height:80%; margin-top: 10px;">
+            <a href="#" class="btn btn-large" style="width:100%; height: 100%; padding-top: 27px;">
+                <span class="pickup-text" style="font-size: 5em;">SET PICKUP</span>
+                </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content_tab3 %}
