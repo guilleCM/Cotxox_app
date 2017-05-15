@@ -31,7 +31,7 @@ def signup():
 		if password != repeatPassword:
 			flash('The password fields doesn\'t match!', 'red')
 			return redirect(url_for('signup'))
-		new_user = Users(email, password, firstName, lastName)
+		new_user = Users(email=email, password=password, firstName=firstName, lastName=lastName)
 		db.session.add(new_user)
 		db.session.commit()
 		flash('Succesfully registered. Now you can log in', 'green')
