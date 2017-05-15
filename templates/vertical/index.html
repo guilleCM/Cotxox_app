@@ -13,7 +13,22 @@
 {% endblock %}
 
 {% block content_profile %}
-    <h1 class="center">PROFILE PAGE</h1>
+    <!-- <h1 class="center">PROFILE PAGE</h1> -->
+    <div class="row">
+        <div class="col s4">
+            <img src="../../static/img/users/default-user-image.png" class="responsive-img circle">
+        </div>
+        <div class="col s8">
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="firstName">First Name
+                    <input class="validate valid" id="firstName" name="firstName" placeholder="First Name" type="text" value="{{ current_user.firstName }}" readonly="true">
+                </div>
+<!--                 <div class="col s12">{{ current_user.lastName }}</div>
+                <div class="col s12">{{ current_user.email }}</div> -->
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascript %}
