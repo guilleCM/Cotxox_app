@@ -22,16 +22,16 @@
             
         }
         $('#chat-button').click(function(){
-            $('#chat-content').attr("z-index", "11");
-            $('#profile-content').attr("z-index", "8");
+            $('#chat-content').css("z-index", "11");
+            $('#profile-content').css("z-index", "8");
         });
         $('#profile-button').click(function(){
-            $('#profile-content').attr("z-index", "11");
-            $('#chat-content').attr("z-index", "8");
+            $('#profile-content').css("z-index", "11");
+            $('#chat-content').css("z-index", "8");
         });
         $('#navigation-button').click(function(){
-            $('#chat-content').attr("z-index", "8");
-            $('#profile-content').attr("z-index", "8");
+            $('#chat-content').css("z-index", "8");
+            $('#profile-content').css("z-index", "8");
         });
         function initMap() {
         var uluru = {lat: 39.568853, lng:  2.667422};
