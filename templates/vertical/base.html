@@ -9,62 +9,49 @@
 
 <body>
   <style>
-    .bottom-menu {
-      position: fixed;
-      bottom: 0px;
-      width:100%;
-      height: 100px;
+    html, body{
+      height: 100%;
+      width: 100%;
     }
-    .bottom-menu li {
-      height: 100px;
+    .container-fluid{
+      height: 100%;
     }
     .general-content {
-      height: calc(100% - 100px);
-    }
-    #test1 {
-      background-color: red;
       height: 100%;
-    }
-    #test2 {
-      background-image: url("../../static/img/backgrounds/clean_textile.png");
-      height: 100%;
-    }
-    #test3 {
-      background-color: green;
-      height: 100%;
-    }
-    html, body {
       width: 100%;
-      height: 100%;
+      background-image: url("../../static/img/backgrounds/clean_textile.png");
     }
-    .bottom-menu li {
-      height: 100%;
-    }
-    .full-height {
-      height: 100%;
-    }
-    .tabs .tab a {
-      display: inline;
-    }
-    .tabs i {
-      margin-top: 8px;
+    .bottom-content {
+      height: 15%;
+      width: 100%;
+      position: fixed;
+      bottom: 0px;
     }
     .row{
       margin-bottom: 0px;
     }
+    .full-height {
+      height: 100%;
+    }
+    .button-custom{
+      margin: auto;
+    }
   </style>
-	<div class="row general-content">
-    <div id="test1" class="col s12">{% block content_tab1 %}{% endblock %}</div>
-    <div id="test2" class="col s12">{% block content_tab2 %}{% endblock %}</div>
-    <div id="test3" class="col s12">{% block content_tab3 %}{% endblock %}</div>
-  </div>
-  <div class="row bottom-menu" style="margin-bottom: 0px;">
-    <div class="col s12 full-height">
-      <ul class="tabs full-height">
-        <li class="tab col s3"><a href="#test1"><i class="large material-icons">message</i></a></li>
-        <li class="tab col s3 "><a class="active" href="#test2"><i class="large material-icons">navigation</i></a></li>
-        <li class="tab col s3"><a href="#test3"><i class="large material-icons">perm_identity</i></a></li>
-      </ul>
+	
+  <div class="container-fluid">
+    <div class="row general-content">
+
+    </div>
+    <div class="row bottom-content center">
+      <div class="col s4 full-height valign-wrapper">
+        <a href="#" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">menu</i> </a>
+      </div>
+      <div class="col s4 full-height valign-wrapper">
+        <a href="#" class="btn btn-large btn-floating pulse valign button-custom cyan"> <i class="material-icons">menu</i> </a>
+      </div>
+      <div class="col s4 full-height valign-wrapper">
+        <a href="#" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">menu</i> </a>
+      </div>
     </div>
   </div>
         
