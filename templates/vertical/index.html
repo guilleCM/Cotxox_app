@@ -6,10 +6,50 @@
 {% endblock %}
 
 {% block content_navigation %}
-    <!--<div class="row" style="height:70%; margin-top: 5%;">
+    <style>
+        .map {
+            height: 55%;
+            margin-top: 5%;
+        }
+        .inputs {
+            height: 20%;
+        }
+        .pickup-button a{
+            font-size: 2.5rem;
+        }
+        .card {
+            margin: 10px 10px;
+        }
+        .card .card-content {
+            padding: 0;
+        }
+    </style>
+    <div class="row map">
         <div id="googleMap" class="col s12" style="width: 100%;height:100%;"></div>    
-    </div>-->
-    <h1>NAVIGATION PAGE</h1>
+    </div>
+    <div class="row inputs">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">gps_fixed</i>
+                <label for="destination">Destination</label>
+                <input type="text" placeholder="Where you wanna go?" id="destination">
+            </div>
+            <div class="input-field col s12">
+            <i class="material-icons prefix">gps_fixed</i>
+            <label for="from">From</label>
+            <input type="text" value="IES Borja Moll" id="from">
+        </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pickup-button">
+        <a href="#" class="btn btn-large waves-effect col s10 offset-s1"> SET PICKUP
+            <i class="material-icons">near_me</i>
+        </a>
+    </div>
 {% endblock %}
 
 {% block content_profile %}
