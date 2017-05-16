@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="row pickup-button">
-        <a href="#" class="btn btn-large waves-effect col s10 offset-s1"> SET PICKUP
+        <a href="#" class="btn btn-large waves-effect col s10 offset-s1" id="pickup"> SET PICKUP
             <i class="material-icons">near_me</i>
         </a>
     </div>
@@ -101,6 +101,24 @@
           icon: iconBase + 'parking_lot_maps.png'
         });
       }
+
+      $('#pickup').click(function(){
+        url = "/map";
+        $.ajax({
+            url: url,
+            dataType: 'text',
+            type: 'GET',
+            beforeSend: function () {
+            },
+            success: function (responseText) {
+                console.log(responseText);
+            },
+            error: function (req, status, err) {
+                console.log('Error: ' + err);
+            }
+        });
+      });
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4&callback=initMap">
