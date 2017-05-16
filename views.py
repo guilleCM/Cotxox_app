@@ -14,7 +14,8 @@ from models import Users
 def index():
 	device = Utils.getDevice()
 	return render_template("/"+device+"/index.html",
-							device=device)
+							device=device,
+							)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
