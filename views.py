@@ -4,11 +4,10 @@ from datetime import timedelta
 from flask_login import current_user, login_required, login_user, logout_user
 
 from middleware.Utils import Utils
+from controllers.services import ProviderAPI
 
 from app import app, db, login_manager
 from models import Users
-
-import requests
 
 @app.route('/')
 @app.route('/index')
@@ -44,13 +43,11 @@ def signup():
 	return render_template("signup.html",
 							form=form)
 
-
-@app.route('/map')
-def map():
-	url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Palma&destinations=Magaluf&key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4"
-	r = requests.get(url)
-	datajson = r.json()
-	return datajson['rows'][0]['elements'][0]['distance']['text']
+@app.route('/getParameters/<startPoint>-<endPoint>')
+def getParameters(startPoint, endPoint):
+	dictionary = ProviderAPI.getRideDistanceAndTime(startPoint, endPoint)
+	distance = dictionary['distance']
+	return str(distance)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
