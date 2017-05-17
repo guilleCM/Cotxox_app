@@ -10,9 +10,7 @@
         .map {
             height: 55%;
             margin-top: 5%;
-        }
-        .inputs {
-            height: 20%;
+            margin-bottom: 5%;
         }
         .pickup-button a{
             font-size: 2.5rem;
@@ -22,6 +20,13 @@
         }
         .card .card-content {
             padding: 0;
+        }
+        .inputs {
+            height: 25%
+        }
+        .pickup-button {
+            margin-top: 5%;
+            height: 10%;
         }
     </style>
     <div class="row map">
@@ -45,8 +50,8 @@
             </div>
         </div>
     </div>
-    <div class="row pickup-button">
-        <a href="#" class="btn btn-large waves-effect col s10 offset-s1" id="pickup"> SET PICKUP
+    <div class="row pickup-button wrapper">
+        <a href="#" class="btn btn-large waves-effect col s10 offset-s1 valign-wrapper" id="pickup"> SET PICKUP
             <i class="material-icons">near_me</i>
         </a>
     </div>
@@ -90,7 +95,7 @@
         });
         function initMap() {
         var uluru = {lat: 39.568853, lng:  2.667422};
-        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/'
+        var iconBase = 'http://maps.google.com/mapfiles/'
         var map = new google.maps.Map(document.getElementById('googleMap'), {
           zoom: 16,
           center: uluru
@@ -98,7 +103,7 @@
         var marker = new google.maps.Marker({
           position: uluru,
           map: map,
-          icon: iconBase + 'parking_lot_maps.png'
+          icon: iconBase + 'marker.png'
         });
       }
 
