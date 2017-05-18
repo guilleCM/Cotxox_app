@@ -1,15 +1,9 @@
 {% extends "/vertical/base.html" %}
 
-{% block content_chat %}
-
-    <h1 class="center">CHAT PAGE</h1>
-{% endblock %}
-
 {% block content_navigation %}
     <style>
         .map {
             height: 55%;
-            margin-top: 5%;
             margin-bottom: 5%;
         }
         .pickup-button a{
@@ -26,7 +20,20 @@
         }
         .pickup-button {
             margin-top: 5%;
-            height: 10%;
+            height:5%;
+        }
+        .modal.open {
+            top: 30% !important;
+        }
+        .modal-content {
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .btn.lyft {
+            background-color: pink;
+        }
+        .btn.lyft:hover {
+            background-color: red;
         }
     </style>
     <div class="row map">
@@ -55,31 +62,41 @@
             <i class="material-icons">near_me</i>
         </a>
     </div>
-{% endblock %}
-
-{% block content_profile %}
-    <!-- <h1 class="center">PROFILE PAGE</h1> -->
+      <!-- Modal Structure -->
+    <div id="requestLyft" class="modal">
+    <div class="modal-content">
+    <div class="row center">
+      <h4><i class="material-icons">directions_car</i>Lyft</h4><hr>
+    </div>
     <div class="row">
-        <div class="col s4">
-            <img src="../../static/img/users/default-user-image.png" class="responsive-img circle">
+        <div class="col s6"><i class="material-icons md-24">credit_card</i><span>142521421</span></div>
+        <div class="col s6">Cost: 50</div>
+    </div>
+        <hr>
+    <div class="row">
+        <div class="col s12">
+            <div class="col s8"><i class="material-icons prefix" style="color:blue;">gps_fixed</i>Origen</div>
+            <div class="col s4">Distancia</div>
         </div>
-        <div class="col s8">
-            <div class="row">
-                <div class="input-field col s12">
-                    <label for="firstName">First Name
-                    <input class="validate valid" id="firstName" name="firstName" placeholder="First Name" type="text" value="{{ current_user.firstName }}" readonly="true">
-                </div>
-<!--                 <div class="col s12">{{ current_user.lastName }}</div>
-                <div class="col s12">{{ current_user.email }}</div> -->
-            </div>
+        <hr>
+        <div class="col s12">
+            <div class="col s8"><i class="material-icons prefix" style="color:pink;">gps_fixed</i>Destino</div>
+            <div class="col s4">Time</div>
         </div>
     </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft">Agree</a>
+    </div>
+    </div>
+
 {% endblock %}
 
 {% block javascript %}
     <script>
         window.onload = function() {
-            
+            $('#requestLyft').modal();
+            $('#requestLyft').modal('open');
         }
         $('#chat-button').click(function(){
             $('#chat-content').css("z-index", "11");
@@ -108,18 +125,22 @@
       }
 
       $('#pickup').click(function(){
-        url = "/map";
+        var startPoint = $('#from').val()
+        var endPoint = $('#destination').val()
+        url = "/getParameters/"+startPoint+"-"+endPoint;
         $.ajax({
             url: url,
-            dataType: 'text',
+            dataType: 'json',
             type: 'GET',
             beforeSend: function () {
             },
             success: function (responseText) {
                 console.log(responseText);
+                $('#requestLyft').modal('open');
             },
             error: function (req, status, err) {
                 console.log('Error: ' + err);
+                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
             }
         });
       });

@@ -45,9 +45,8 @@ def signup():
 
 @app.route('/getParameters/<startPoint>-<endPoint>')
 def getParameters(startPoint, endPoint):
-	dictionary = ProviderAPI.getRideDistanceAndTime(startPoint, endPoint)
-	distance = dictionary['distance']
-	return str(distance)
+	parameters = ProviderAPI.getRideDistanceAndTime(startPoint, endPoint)
+	return parameters
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

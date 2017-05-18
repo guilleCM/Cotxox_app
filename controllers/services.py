@@ -1,4 +1,5 @@
 import requests
+from flask import jsonify
 
 class ProviderAPI:
 
@@ -12,5 +13,5 @@ class ProviderAPI:
 		distance = distance[:-3]
 		time = datajson['rows'][0]['elements'][0]['duration']['text']
 		time = time[:-5]
-		output = {'distance': float(distance), 'time': int(time)}
+		output = jsonify({'distance': float(distance), 'time': int(time)})
 		return output
