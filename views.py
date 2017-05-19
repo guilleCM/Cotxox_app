@@ -10,11 +10,11 @@ from app import app, db, login_manager
 from models import Users
 
 @app.route('/')
-@app.route('/index')
+@app.route('/setpickup')
 @login_required
-def index():
+def setpickup():
 	device = Utils.getDevice()
-	return render_template("/"+device+"/index.html",
+	return render_template("/"+device+"/setpickup.html",
 							device=device,
 							)
 
@@ -45,7 +45,7 @@ def signup():
 
 @app.route('/getParameters/<startPoint>-<endPoint>')
 def getParameters(startPoint, endPoint):
-	parameters = ProviderAPI.getRideDistanceAndTime(startPoint, endPoint)
+	parameters = ProviderAPI.getRidePreview(startPoint, endPoint)
 	return parameters
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -58,7 +58,7 @@ def login():
 		if user is not None and user.get_password() == password:
 			# numId = user.get_id()
 			login_user(user)
-			return redirect(url_for('index'))
+			return redirect(url_for('setpickup'))
 		else:
 			flash('Incorrect login', 'red')
 			return redirect(url_for('login'))

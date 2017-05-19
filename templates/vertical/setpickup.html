@@ -35,6 +35,9 @@
         .btn.lyft:hover {
             background-color: red;
         }
+        .icon-align {
+            vertical-align: middle;
+        }
     </style>
     <div class="row map">
         <div id="googleMap" class="col s12" style="width: 100%;height:100%;"></div>    
@@ -64,30 +67,32 @@
     </div>
       <!-- Modal Structure -->
     <div id="requestLyft" class="modal">
-    <div class="modal-content">
-    <div class="row center">
-      <h4><i class="material-icons">directions_car</i>Lyft</h4><hr>
-    </div>
-    <div class="row">
-        <div class="col s6"><i class="material-icons md-24">credit_card</i><span>142521421</span></div>
-        <div class="col s6">Cost: 50</div>
-    </div>
-        <hr>
-    <div class="row">
-        <div class="col s12">
-            <div class="col s8"><i class="material-icons prefix" style="color:blue;">gps_fixed</i>Origen</div>
-            <div class="col s4">Distancia</div>
+        <div class="modal-content">
+            <div class="row center">
+              <h4><i class="material-icons">directions_car</i>Lyft</h4><hr>
+            </div>
+            <div class="row">
+                <div class="col s6"><i class="material-icons icon-align">credit_card</i><span> 142521421</span></div>
+                <div class="col s6"><span class="right"><i class="material-icons icon-align">attach_money</i> Cost: <strong id="modalCost"> €</strong></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:blue;">gps_fixed</i> <span id="modalFrom"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:pink;">gps_fixed</i> <span id="modalDestination"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s6"><span><i class="material-icons icon-align">place</i> Distance: <strong id="distance"></strong> km</span></div>
+                <div class="col s6"><span class="right"><i class="material-icons icon-align">timer</i> Time: <strong id="time"></strong> min</span></div>
+            </div>
+                <hr>
         </div>
-        <hr>
-        <div class="col s12">
-            <div class="col s8"><i class="material-icons prefix" style="color:pink;">gps_fixed</i>Destino</div>
-            <div class="col s4">Time</div>
+        <div class="modal-footer center">
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
         </div>
-    </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft">Agree</a>
-    </div>
     </div>
 
 {% endblock %}
@@ -96,7 +101,6 @@
     <script>
         window.onload = function() {
             $('#requestLyft').modal();
-            $('#requestLyft').modal('open');
         }
         $('#chat-button').click(function(){
             $('#chat-content').css("z-index", "11");
@@ -135,8 +139,12 @@
             beforeSend: function () {
             },
             success: function (responseText) {
-                console.log(responseText);
                 $('#requestLyft').modal('open');
+                $('#modalFrom').html(" "+startPoint);
+                $('#modalDestination').html(" "+endPoint);
+                $('#time').html(responseText["time"]);
+                $('#distance').html(responseText["distance"]);
+                $('#modalCost').html(responseText["cost"]);
             },
             error: function (req, status, err) {
                 console.log('Error: ' + err);
