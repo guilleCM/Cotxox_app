@@ -1,0 +1,175 @@
+{% extends "/vertical/base.html" %}
+
+{% block content_navigation %}
+    <style>
+        .map {
+            height: 55%;
+            margin-bottom: 5%;
+        }
+        .pickup-button a{
+            font-size: 2.5rem;
+        }
+        .card {
+            margin: 10px 10px;
+        }
+        .card .card-content {
+            padding: 0;
+        }
+        .inputs {
+            height: 25%
+        }
+        .pickup-button {
+            margin-top: 5%;
+            height:5%;
+        }
+        #requestLyft {
+            width: 95%;
+        }
+        .modal.open {
+            top: 30% !important;
+        }
+        .modal-content {
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .btn.lyft {
+            background-color: #ff00bf;
+        }
+        .btn.lyft:hover {
+            background-color: red;
+        }
+        .icon-align {
+            vertical-align: middle;
+        }
+        #carModel {
+            height: 65px;
+        }
+        #driverPhoto {
+            height: 65px;
+        }
+    </style>
+    <div class="row map">
+        <div id="googleMap" class="col s12" style="width: 100%;height:100%;"></div>    
+    </div>
+    <div class="row inputs">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">gps_fixed</i>
+                <label for="destination">Destination</label>
+                <input type="text" placeholder="Where you wanna go?" id="destination">
+            </div>
+            <div class="input-field col s12">
+            <i class="material-icons prefix">gps_fixed</i>
+            <label for="from">From</label>
+            <input type="text" value="IES Borja Moll" id="from">
+        </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pickup-button wrapper">
+        <a href="#" class="btn btn-large waves-effect col s10 offset-s1 valign-wrapper" id="pickup"> SET PICKUP
+            <i class="material-icons">near_me</i>
+        </a>
+    </div>
+      <!-- Modal Structure -->
+    <div id="requestLyft" class="modal">
+        <div class="modal-content">
+            <div class="row center">
+              <h5 style="color:#ff00bf;">YOUR DRIVER IS HERE</h5><hr>
+            </div>
+            <div class="row">
+                <div class="col s3 center"><span><strong>Car Model</strong><br>14512AAE</span></div>
+                <div class="col s6">
+                    <img src="../../static/img/cars/model1.png" alt="car" id="carModel">
+                    <img src="../../static/img/users/driver1.jpg" alt="driver" id="driverPhoto" class="circle">
+                </div>
+                <div class="col s3"><span><strong>Samantha</strong><br>* 5.0</span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#352285;">gps_fixed</i> <span id="modalFrom"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#ff00bf;">gps_fixed</i> <span id="modalDestination"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s6"><span><i class="material-icons icon-align">place</i> Distance: <strong id="distance"></strong> km</span></div>
+                <div class="col s6"><span class="right"><i class="material-icons icon-align">timer</i> Time: <strong id="time"></strong> min</span></div>
+            </div>
+                <hr>
+        </div>
+        <div class="modal-footer center">
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        window.onload = function() {
+            $('#requestLyft').modal();
+            $('#requestLyft').modal('open');
+        }
+        $('#chat-button').click(function(){
+            $('#chat-content').css("z-index", "11");
+            $('#profile-content').css("z-index", "8");
+        });
+        $('#profile-button').click(function(){
+            $('#profile-content').css("z-index", "11");
+            $('#chat-content').css("z-index", "8");
+        });
+        $('#navigation-button').click(function(){
+            $('#chat-content').css("z-index", "8");
+            $('#profile-content').css("z-index", "8");
+        });
+        function initMap() {
+        var uluru = {lat: 39.568853, lng:  2.667422};
+        var iconBase = 'http://maps.google.com/mapfiles/'
+        var map = new google.maps.Map(document.getElementById('googleMap'), {
+          zoom: 16,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map,
+          icon: iconBase + 'marker.png'
+        });
+      }
+
+      $('#pickup').click(function(){
+        var startPoint = $('#from').val()
+        var endPoint = $('#destination').val()
+        url = "/getParameters/"+startPoint+"-"+endPoint;
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET',
+            beforeSend: function () {
+            },
+            success: function (responseText) {
+                console.log(responseText);
+                $('#requestLyft').modal('open');
+                $('#modalFrom').html(" "+startPoint);
+                $('#modalDestination').html(" "+endPoint);
+                $('#time').html(responseText["time"]);
+                $('#distance').html(responseText["distance"]);
+                $('#modalCost').html(responseText["cost"]);
+            },
+            error: function (req, status, err) {
+                console.log('Error: ' + err);
+                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
+            }
+        });
+      });
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4&callback=initMap">
+    </script>
+{% endblock %}

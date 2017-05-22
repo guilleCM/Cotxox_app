@@ -18,6 +18,14 @@ def setpickup():
 							device=device,
 							)
 
+@app.route('/waiting-driver')
+@login_required
+def waitingDriver():
+	device = Utils.getDevice()
+	return render_template("/"+device+"/waitingDriver.html",
+							device=device
+							)
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 	form = SignupForm()
