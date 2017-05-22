@@ -33,7 +33,7 @@ class ProviderAPI:
 		distance = datajson['rows'][0]['elements'][0]['distance']['text'] #outputExample = u'12.1 km'
 		distance = ProviderAPI.getDistance(str(distance))
 		time = datajson['rows'][0]['elements'][0]['duration']['text']
-		time = ProviderAPI.getTime(time)
+		time = ProviderAPI.getTime(str(time))
 		cost = Tax.getExpectedPrice(distance, time)
 		output = jsonify({'distance': distance, 'time': time, 'cost':round(cost,2)})
 		return output
@@ -47,8 +47,6 @@ class ProviderAPI:
 				output += letter
 			elif letter.isalpha():
 				measure += letter
-		if ',' in output:
-			output = output.replace(',','.')
 		output = float(output)
 		if measure == 'm':
 			output = output / 1000
@@ -58,8 +56,11 @@ class ProviderAPI:
 	def getTime(string):
 		values = []
 		output = ''
-		if ',' in string:
-			values = string.split(",")
+		if string.find('h') != -1:
+			index = string.find('h')
+			values.append(string[:index])
+			values.append(string[index:])
+
 		if len(values) != 2:
 			for letter in string:
 				if letter.isdigit():

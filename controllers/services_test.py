@@ -34,11 +34,11 @@ class TestServices(unittest.TestCase):
 		expected = 17
 		self.assertEqual(expected, ProviderAPI.getTime(string))
 	def test_getTimeHourAndMinut(self):
-		string = "1 hour, 1 minut"
+		string = "1 hour 1 minut"
 		expected = 61
 		self.assertEqual(expected, ProviderAPI.getTime(string))
 	def test_getTimeHoursAndMinutes(self):
-		string = "2 hours, 23 minuts"
+		string = "2 hours 23 minuts"
 		expected = 143
 		self.assertEqual(expected, ProviderAPI.getTime(string))
 
