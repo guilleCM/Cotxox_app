@@ -30,10 +30,50 @@ class ProviderAPI:
 		url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+startPoint+"&destinations="+endPoint+"&key="+API_KEY
 		r = requests.get(url)
 		datajson = r.json()
-		distance = datajson['rows'][0]['elements'][0]['distance']['text']
-		distance = distance[:-3]
+		distance = datajson['rows'][0]['elements'][0]['distance']['text'] #outputExample = u'12.1 km'
+		distance = ProviderAPI.getDistance(str(distance))
 		time = datajson['rows'][0]['elements'][0]['duration']['text']
-		time = time[:-5]
-		cost = Tax.getExpectedPrice(float(distance), int(time))
-		output = jsonify({'distance': float(distance), 'time': int(time), 'cost':round(cost,2)})
+		time = ProviderAPI.getTime(time)
+		cost = Tax.getExpectedPrice(distance, time)
+		output = jsonify({'distance': distance, 'time': time, 'cost':round(cost,2)})
+		return output
+
+	@staticmethod	
+	def getDistance(string):
+		output = ''
+		measure = ''
+		for letter in string:
+			if letter.isdigit() or letter == '.':
+				output += letter
+			elif letter.isalpha():
+				measure += letter
+		if ',' in output:
+			output = output.replace(',','.')
+		output = float(output)
+		if measure == 'm':
+			output = output / 1000
+		return output
+
+	@staticmethod
+	def getTime(string):
+		values = []
+		output = ''
+		if ',' in string:
+			values = string.split(",")
+		if len(values) != 2:
+			for letter in string:
+				if letter.isdigit():
+					output += letter
+			output = int(output)
+		else:
+			hours = ''
+			for letter in values[0]:
+				if letter.isdigit():
+					hours += letter
+			output = int(hours) * 60
+			minuts = ''
+			for letter in values[1]:
+				if letter.isdigit():
+					minuts += letter
+			output += int(minuts)
 		return output

@@ -139,6 +139,7 @@
             beforeSend: function () {
             },
             success: function (responseText) {
+                console.log(responseText);
                 $('#requestLyft').modal('open');
                 $('#modalFrom').html(" "+startPoint);
                 $('#modalDestination').html(" "+endPoint);
