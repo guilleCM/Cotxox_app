@@ -64,7 +64,6 @@ def login():
 		password = form.password.data
 		user = Users.query.filter_by(email=email).first()
 		if user is not None and user.get_password() == password:
-			# numId = user.get_id()
 			login_user(user)
 			return redirect(url_for('setpickup'))
 		else:

@@ -75,8 +75,8 @@
               <h4><i class="material-icons">directions_car</i>Lyft</h4><hr>
             </div>
             <div class="row">
-                <div class="col s6"><i class="material-icons icon-align">credit_card</i><span> 142521421</span></div>
-                <div class="col s6"><span class="right"><i class="material-icons icon-align">attach_money</i> Cost: <strong id="modalCost"> €</strong></span></div>
+                <div class="col s7"><i class="material-icons icon-align">credit_card</i><span>{{ current_user.creditCard }}</span></div>
+                <div class="col s5"><span class="right"><i class="material-icons icon-align">attach_money</i> Cost: <strong id="modalCost"> €</strong></span></div>
             </div>
                 <hr>
             <div class="row">
@@ -94,7 +94,7 @@
                 <hr>
         </div>
         <div class="modal-footer center">
-          <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+          <a href="{{ url_for('waitingDriver') }}" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
         </div>
     </div>
 
