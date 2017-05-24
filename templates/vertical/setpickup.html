@@ -25,7 +25,7 @@
         #requestLyft {
             width: 95%;
         }
-        .modal.open {
+/*        .modal.open {
             top: 30% !important;
         }
         .modal-content {
@@ -40,6 +40,32 @@
         }
         .icon-align {
             vertical-align: middle;
+        }*/
+        #waitingDriver {
+            width: 95% !important;
+            overflow: hidden;
+        }
+        .modal.open {
+            top: 10% !important;
+        }
+        .modal-content {
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .btn.lyft {
+            background-color: #ff00bf;
+        }
+        .btn.lyft:hover {
+            background-color: red;
+        }
+        .icon-align {
+            vertical-align: middle;
+        }
+        #carModel {
+            height: 65px;
+        }
+        #driverPhoto {
+            height: 65px;
         }
     </style>
     <div class="row map">
@@ -80,11 +106,11 @@
             </div>
                 <hr>
             <div class="row">
-                <div class="col s12"><i class="material-icons icon-align" style="color:#352285;">gps_fixed</i> <span id="modalFrom"></span></div>
+                <div class="col s12"><i class="material-icons icon-align" style="color:#352285;">gps_fixed</i> <span class="modalFrom"></span></div>
             </div>
                 <hr>
             <div class="row">
-                <div class="col s12"><i class="material-icons icon-align" style="color:#ff00bf;">gps_fixed</i> <span id="modalDestination"></span></div>
+                <div class="col s12"><i class="material-icons icon-align" style="color:#ff00bf;">gps_fixed</i> <span class="modalDestination"></span></div>
             </div>
                 <hr>
             <div class="row">
@@ -94,7 +120,42 @@
                 <hr>
         </div>
         <div class="modal-footer center">
-          <a href="{{ url_for('waitingDriver') }}" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+          <a href="#" id="requestDriver" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="waitingDriver" class="modal">
+        <div class="modal-content">
+            <input id="driverId" type="hidden">
+            <div class="row center">
+              <h5 style="color:#ff00bf;">YOUR DRIVER IS HERE</h5><hr>
+            </div>
+            <div class="row">
+                <div class="col s3 center"><span><strong id="carModel"></strong><br><span id="carLicense"></span></span></div>
+                <div class="col s6 center">
+                    <img alt="car" id="carPhoto">
+                    <img alt="driver" id="driverPhoto" class="circle">
+                </div>
+                <div class="col s3 center"><span><strong id="driverName">Conductor</strong></span><br><i class="material-icons icon-align">star</i><span id="averageRate"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#352285;">gps_fixed</i> <span class="modalFrom"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#ff00bf;">gps_fixed</i> <span class="modalDestination"></span></div>
+            </div>
+                <hr>
+        </div>
+        <div class="modal-footer center">
+            <div class="col s6">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+            </div>
+            <div class="col s6">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">CANCEL</a>
+            </div>
         </div>
     </div>
 
@@ -104,6 +165,7 @@
     <script>
         window.onload = function() {
             $('#requestLyft').modal();
+            $('#waitingDriver').modal();
         }
         $('#chat-button').click(function(){
             $('#chat-content').css("z-index", "11");
@@ -144,11 +206,37 @@
             success: function (responseText) {
                 console.log(responseText);
                 $('#requestLyft').modal('open');
-                $('#modalFrom').html(" "+startPoint);
-                $('#modalDestination').html(" "+endPoint);
+                $('.modalFrom').html(" "+startPoint);
+                $('.modalDestination').html(" "+endPoint);
                 $('#time').html(responseText["time"]);
                 $('#distance').html(responseText["distance"]);
                 $('#modalCost').html(responseText["cost"]);
+            },
+            error: function (req, status, err) {
+                console.log('Error: ' + err);
+                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
+            }
+        });
+      });
+
+    $('#requestDriver').click(function(){
+        url = "/getDriver";
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET',
+            beforeSend: function () {
+            },
+            success: function (responseText) {
+                console.log(responseText);
+                $('#waitingDriver').modal('open');
+                $('#driverName').html(responseText["firstName"]);
+                $('#carModel').html(responseText["carModel"]);
+                $('#carLicense').html(responseText["carLicense"]);
+                $('#carPhoto').attr("src", responseText["carPhoto"]);
+                $('#driverPhoto').attr("src", responseText["profilePhoto"]);
+                $('#averageRate').html(responseText["averageRate"]);
+                $('#driverId').val(responseText['id']);
             },
             error: function (req, status, err) {
                 console.log('Error: ' + err);

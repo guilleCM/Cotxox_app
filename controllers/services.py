@@ -1,5 +1,8 @@
 import requests
+import random
 from flask import jsonify
+from sqlalchemy.sql import func
+from models import *
 
 class Tax:
 	costPerKm = 1.35
@@ -23,6 +26,23 @@ class Tax:
 		return total
 
 class ProviderAPI:
+	@staticmethod
+	def getDriver():
+		freeDrivers = Drivers.query.filter_by(isBusy=False).all()
+		selectedDriver = random.choice(freeDrivers)
+		sumRates = db.session.query(func.sum(Rates.rate)).filter_by(idDriver=selectedDriver.id).all()
+		sumRates = sumRates[0][0]
+		numRates = Rates.query.filter_by(idDriver=selectedDriver.id).count()
+		averageRate = sumRates / numRates
+		driver = jsonify({'id': selectedDriver.id,
+						'firstName': selectedDriver.firstName,
+						'carPhoto': selectedDriver.carPhoto,
+						'profilePhoto': selectedDriver.profilePhoto,
+						'carModel': selectedDriver.carModel,
+						'carLicense': selectedDriver.carLicense,
+						'averageRate': round(averageRate, 2)
+						})
+		return driver
 
 	@staticmethod
 	def getRidePreview(startPoint, endPoint):
