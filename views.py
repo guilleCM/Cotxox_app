@@ -15,8 +15,14 @@ from models import Users
 def setpickup():
 	device = Utils.getDevice()
 	return render_template("/"+device+"/setpickup.html",
-							device=device,
-							)
+							device=device)
+
+@app.route('/payment')
+@login_required
+def payment():
+	device = Utils.getDevice()
+	return render_template("/"+device+"/payment.html",
+							device=device)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
