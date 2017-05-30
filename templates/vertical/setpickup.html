@@ -104,7 +104,7 @@
             </div>
                 <hr>
             <div class="row">
-                <div class="col s6"><span><i class="material-icons icon-align">place</i> Distance: <strong id="distance"></strong> km</span></div>
+                <div class="col s6"><span><i class="material-icons icon-align">place</i> Dist.: <strong id="distance"></strong> km</span></div>
                 <div class="col s6"><span class="right"><i class="material-icons icon-align">timer</i> Time: <strong id="time"></strong> min</span></div>
             </div>
                 <hr>
@@ -140,19 +140,25 @@
                 <hr>
         </div>
         <div class="modal-footer center">
+            <form method="POST">
+            {{ form.data_input(id="data") }}
             <div class="col s6">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+                <button type="submit" action="submit" id="goPayment" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
             </div>
+            </form>
             <div class="col s6">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">CANCEL</a>
+                <a id="prueba" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">CANCEL</a>
             </div>
         </div>
     </div>
+    
+
 
 {% endblock %}
 
 {% block javascript %}
     <script>
+        var selectedDriver = null;
         window.onload = function() {
             $('#requestLyft').modal();
             $('#waitingDriver').modal();
@@ -219,6 +225,7 @@
             },
             success: function (responseText) {
                 console.log(responseText);
+                selectedDriver = responseText;
                 $('#waitingDriver').modal('open');
                 $('#driverName').html(responseText["firstName"]);
                 $('#carModel').html(responseText["carModel"]);
@@ -234,7 +241,60 @@
             }
         });
       });
+    $('#goPayment').click(function() {
+        var input_value = [];
+        var startPointVal = $('.modalFrom').html().substring(1);
+        var endPointVal = $('.modalDestination').html().substring(1);
+        var distanceVal = parseFloat($('#distance').html());
+        var timeVal = parseInt($('#time').html());
+        var costVal = parseFloat($('#modalCost').html());
+        var driverVal = selectedDriver;
+        var json_values = {
+            startPoint: startPointVal,
+            endPoint: endPointVal,
+            distance: distanceVal,
+            time: timeVal,
+            cost: costVal,
+            driver: driverVal
+        };
+        input_value.push(json_values);
+        var output = JSON.stringify(input_value);
+        $('#data').val(input_value);
+    });
 
+    $('#prueba').click(function(){
+        var input_value = [];
+        var startPointVal = $('.modalFrom').html().substring(1);
+        var endPointVal = $('.modalDestination').html().substring(1);
+        var distanceVal = parseFloat($('#distance').html());
+        var timeVal = parseInt($('#time').html());
+        var costVal = parseFloat($('#modalCost').html());
+        var driverVal = selectedDriver;
+        var json_values = {
+            startPoint: startPointVal,
+            endPoint: endPointVal,
+            distance: distanceVal,
+            time: timeVal,
+            cost: costVal,
+            driver: driverVal
+        };
+        var url = '/payment';
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            data: json_values,
+            type: 'GET',
+            beforeSend: function () {
+            },
+            success: function (responseText) {
+                console.log(responseText);
+            },
+            error: function (req, status, err) {
+                console.log('Error: ' + err);
+                alert(err);
+            }
+        });
+    })
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4&callback=initMap">

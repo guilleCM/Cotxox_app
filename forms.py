@@ -13,3 +13,6 @@ class SignupForm(FlaskForm):
 	email = StringField('email')
 	firstName = StringField('firstName')
 	lastName = StringField('lastName')
+
+class RideForm(FlaskForm):
+	data_input = HiddenField('data_input', default='[]')

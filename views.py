@@ -1,7 +1,8 @@
-from flask import render_template, redirect, flash, url_for, session
-from forms import LoginForm, SignupForm
+from flask import render_template, redirect, flash, url_for, session, request
+from forms import LoginForm, SignupForm, RideForm
 from datetime import timedelta
 from flask_login import current_user, login_required, login_user, logout_user
+import json
 
 from middleware.Utils import Utils
 from controllers.services import ProviderAPI
@@ -10,19 +11,25 @@ from app import app, db, login_manager
 from models import Users
 
 @app.route('/')
-@app.route('/setpickup')
+@app.route('/setpickup', methods=['GET', 'POST'])
 @login_required
 def setpickup():
+	form = RideForm()
 	device = Utils.getDevice()
+	if request.method == 'POST':
+		data_input_data = form.data_input.data
+		return redirect(url_for('payment', data_input_data=data_input_data))
 	return render_template("/"+device+"/setpickup.html",
-							device=device)
+							device=device,
+							form=form)
 
 @app.route('/payment')
 @login_required
 def payment():
 	device = Utils.getDevice()
 	return render_template("/"+device+"/payment.html",
-							device=device)
+							device=device,
+							data=data)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
