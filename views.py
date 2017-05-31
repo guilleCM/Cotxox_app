@@ -2,13 +2,12 @@ from flask import render_template, redirect, flash, url_for, session, request
 from forms import LoginForm, SignupForm, RideForm
 from datetime import timedelta
 from flask_login import current_user, login_required, login_user, logout_user
-import json
-
+import ast
 from middleware.Utils import Utils
 from controllers.services import ProviderAPI
 
 from app import app, db, login_manager
-from models import Users
+from models import Users, Drivers
 
 @app.route('/')
 @app.route('/setpickup', methods=['GET', 'POST'])
@@ -17,19 +16,24 @@ def setpickup():
 	form = RideForm()
 	device = Utils.getDevice()
 	if request.method == 'POST':
-		data_input_data = form.data_input.data
-		return redirect(url_for('payment', data_input_data=data_input_data))
+		ride_data = form.ride_data.data
+		return redirect(url_for('payment', ride_data=ride_data))
 	return render_template("/"+device+"/setpickup.html",
 							device=device,
 							form=form)
 
-@app.route('/payment')
+@app.route('/payment/<ride_data>')
 @login_required
-def payment():
+def payment(ride_data):
+	ride_dict = ast.literal_eval(ride_data)
+	driver = Drivers.query.filter_by(id=ride_dict['driver']).first()
+	driverPhoto = driver.profilePhoto
 	device = Utils.getDevice()
 	return render_template("/"+device+"/payment.html",
 							device=device,
-							data=data)
+							ride_dict=ride_dict,
+							ride_data=ride_data,
+							driverPhoto=driverPhoto)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

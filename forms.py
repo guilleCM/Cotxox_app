@@ -15,4 +15,4 @@ class SignupForm(FlaskForm):
 	lastName = StringField('lastName')
 
 class RideForm(FlaskForm):
-	data_input = HiddenField('data_input', default='[]')
+	ride_data = HiddenField('ride_data', default='[]')
