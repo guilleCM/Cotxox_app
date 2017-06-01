@@ -1,9 +1,64 @@
 {% extends "/vertical/base.html" %}
 
 {% block content_navigation %}
-
+	<style>
+		img {
+			box-shadow: 3px 12px 13px 3px rgba(0,0,0,0.35), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+		}
+		.next-container{
+        	bottom: 7%;
+		    position: fixed;
+		    width: 100%;
+        }
+		.rate-container{
+			height: 20%;
+			display: inline;
+		}
+		.material-icons {
+			color: rgba(255, 255, 255, 1);
+			text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+			font-size: 16vmin;
+			cursor: pointer;
+		}
+		.material-icons:hover {
+			color: #ff00bf;
+			text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+			font-size: 20vmin;
+			cursor: pointer;
+		}
+		.active {
+			color: #ff00bf;
+			text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+			font-size: 18vmin;
+			cursor: pointer;
+		}
+	</style>
+	<div class="row wrapper" style="height: 40%">
+		<div class="col s12 profilePhoto valign-wrapper" style="height: 100%;">
+			<img class="circle" src="../../static/img/drivers/driver1.jpg" alt="driver1" style="margin:auto">
+		</div>
+	</div>
+	<div class="row rate-container">
+		<div class="col s12 center">
+			<i class="material-icons star1 active">star</i>
+			<i class="material-icons star2 active">star</i>
+			<i class="material-icons star3 active">star</i>
+			<i class="material-icons star4 ">star</i>
+			<i class="material-icons star5 ">star</i>
+		</div>
+	</div>
+	<div class="row next-container">
+		<div class="col s12">
+			<button class="btn btn-large waves-effect waves-light" id="btn-rate">RATE</button>
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascript %}
+	<script>
+	$('.material-icons').click(function() {
+		$(this).siblings(":last-child").hide();
+	});
+	</script>
 	<script src="../../static/js/payment.js"></script>
 {% endblock %}
