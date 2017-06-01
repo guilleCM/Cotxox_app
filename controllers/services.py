@@ -113,4 +113,19 @@ class ProviderAPI:
 
 	@staticmethod
 	def createRide(ride_dict, idRate):
-		
+		startPoint = ride_dict['startPoint']
+		endPoint = ride_dict['endPoint']
+		expectedTimeMin = ride_dict['time']
+		cost = ride_dict['cost']
+		tip = ride_dict['cost']
+		creditCard = ride_dict['creditCard']
+		idUser = ride_dict['user']
+		idDriver = ride_dict['driver']
+		ride = Rides(startPoint=startPoint, endPoint=endPoint, expectedTimeMin=expectedTimeMin,
+					cost=cost, tip=tip, creditCard=creditCard, idUser=idUser, idDriver=idDriver,
+					idRate=idRate)
+		db.session.add(ride)
+		db.session.commit()
+		idRide = ride.id
+
+		return idRide

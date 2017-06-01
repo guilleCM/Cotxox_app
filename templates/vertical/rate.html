@@ -61,10 +61,10 @@
 	</div>
 	<div class="row next-container">
 		<div class="col s12">
-			<!--<form method="POST">-->
+			<form method="POST">
 			{{ form.ride_data(id="data", value=ride_data) }}
-			<button class="btn btn-large waves-effect waves-light" id="btn-rate">RATE</button>
-			<!--</form>-->
+				<button action="submit" type="submit" class="btn btn-large waves-effect waves-light" id="btn-rate">RATE</button>
+			</form>
 		</div>
 	</div>
 {% endblock %}
@@ -101,6 +101,8 @@
 		var rate = $('#selected').index() + 1;
 		var dict = JSON.parse($('#data').val());
 		dict['rate'] = rate;
+		var output = JSON.stringify(dict);
+		$('#data').val(output);
 		console.log(dict);
 	});
 	</script>

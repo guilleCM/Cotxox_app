@@ -7,7 +7,7 @@ from middleware.Utils import Utils
 from controllers.services import ProviderAPI
 
 from app import app, db, login_manager
-from models import Users, Drivers, Rates
+from models import Users, Drivers, Rates, Rides
 
 @app.route('/')
 @app.route('/setpickup', methods=['GET', 'POST'])
@@ -40,7 +40,7 @@ def payment(ride_data):
 							driverPhoto=driverPhoto,
 							form=form)
 
-@app.route('/rate/<ride_data>')
+@app.route('/rate/<ride_data>', methods=['GET', 'POST'])
 @login_required
 def rate(ride_data):
 	form = RideForm()
@@ -67,7 +67,7 @@ def rate(ride_data):
 def finish(idRide):
 	device = Utils.getDevice()
 	ride = Rides.query.get(idRide)
-	render_template ('/'+device+'/finish.html',
+	return render_template ('/'+device+'/finish.html',
 						ride=ride)
 
 @app.route('/signup', methods=['GET', 'POST'])
