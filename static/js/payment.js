@@ -22,17 +22,21 @@ $('#othertip').on("change keyup", function(){
 	var inputPrice = $(this).val();
 	if(inputPrice> 0){
 		$('#price').text(price + parseFloat($(this).val()));
+		$('#other').val(parseFloat($(this).val()));
 	} else {
 		$('#price').text(price);
+		$('#other').val(0);
 	}
 });
 
 $('#btn-next').click(function() {
 	var price = parseFloat($('#price').html());
 	var creditCard = $('#creditCard').html();
+	var tip = parseFloat($('#tip-list > li.active').val());
 	var data = JSON.parse($('#data').val());
 	data["cost"] = price;
 	data["creditCard"] = creditCard;
+	data['tip'] = tip;
 	var output = JSON.stringify(data);
 	$('#data').val(output);
 });

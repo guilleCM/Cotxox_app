@@ -98,3 +98,19 @@ class ProviderAPI:
 					minuts += letter
 			output += int(minuts)
 		return output
+
+	@staticmethod
+	def createRate(ride_dict):
+		rateVal = ride_dict['rate']
+		idUser = ride_dict['user']
+		idDriver = ride_dict['driver']
+		rate = Rates(rate=rateVal, idUser=idUser, idDriver=idDriver)
+		db.session.add(rate)
+		db.session.commit()
+		idRate = rate.id
+
+		return idRate
+
+	@staticmethod
+	def createRide(ride_dict, idRate):
+		

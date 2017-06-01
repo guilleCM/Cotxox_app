@@ -43,10 +43,32 @@ def payment(ride_data):
 @app.route('/rate/<ride_data>')
 @login_required
 def rate(ride_data):
+	form = RideForm()
+	ride_dict = ast.literal_eval(ride_data)
+	driver = Drivers.query.filter_by(id=ride_dict['driver']).first()
 	device = Utils.getDevice()
+	if request.method == 'POST':
+		ride_data = form.ride_data.data
+		ride_dict = ast.literal_eval(ride_data)
+		ride_dict['user'] = current_user.id
+		idRate = ProviderAPI.createRate(ride_dict)
+		idRide = ProviderAPI.createRide(ride_dict, idRate)
+		return redirect(url_for('finish', idRide=idRide))
 	return render_template("/"+device+"/rate.html",
 							device=device,
-							ride_data=ride_data)
+							ride_dict=ride_dict,
+							ride_data=ride_data,
+							driver=driver,
+							form=form)
+
+
+@app.route('/finish/<int:idRide>')
+@login_required
+def finish(idRide):
+	device = Utils.getDevice()
+	ride = Rides.query.get(idRide)
+	render_template ('/'+device+'/finish.html',
+						ride=ride)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
