@@ -7,7 +7,7 @@ from middleware.Utils import Utils
 from controllers.services import ProviderAPI
 
 from app import app, db, login_manager
-from models import Users, Drivers, Rates
+from models import Users, Drivers
 
 @app.route('/')
 @app.route('/setpickup', methods=['GET', 'POST'])
@@ -100,18 +100,6 @@ def login():
 	return render_template("login.html",
 							form=form,
 							)
-
-@app.route('/admin')
-def admin():
-	users_list = Users.query.all()
-	drivers_list = Drivers.query.all()
-	rates_list = Rates.query.all()
-	device = Utils.getDevice()
-	return render_template("/"+device+"/admin.html",
-							device=device,
-							drivers_list=drivers_list,
-							users_list=users_list,
-							rates_list=rates_list)
 
 @login_manager.user_loader
 def load_user(id):
