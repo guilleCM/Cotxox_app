@@ -5,7 +5,7 @@ from sqlalchemy.sql import func
 from models import *
 
 class Tax:
-	costPerKm = 1.35
+	costPerKm = 0.83885111
 	costPerMin = 0.35
 	minCost = 5.0
 	percentageCotxox = 0.20
