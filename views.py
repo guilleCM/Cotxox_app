@@ -22,18 +22,31 @@ def setpickup():
 							device=device,
 							form=form)
 
-@app.route('/payment/<ride_data>')
+@app.route('/payment/<ride_data>', methods=['GET', 'POST'])
 @login_required
 def payment(ride_data):
+	form = RideForm()
 	ride_dict = ast.literal_eval(ride_data)
 	driver = Drivers.query.filter_by(id=ride_dict['driver']).first()
 	driverPhoto = driver.profilePhoto
 	device = Utils.getDevice()
+	if request.method == 'POST':
+		ride_data = form.ride_data.data
+		return redirect(url_for('rate', ride_data=ride_data))
 	return render_template("/"+device+"/payment.html",
 							device=device,
 							ride_dict=ride_dict,
 							ride_data=ride_data,
-							driverPhoto=driverPhoto)
+							driverPhoto=driverPhoto,
+							form=form)
+
+@app.route('/rate/<ride_data>')
+@login_required
+def rate(ride_data):
+	device = Utils.getDevice()
+	return render_template("/"+device+"/rate.html",
+							device=device,
+							ride_data=ride_data)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

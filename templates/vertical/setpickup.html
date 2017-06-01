@@ -147,7 +147,7 @@
             </div>
             </form>
             <div class="col s6">
-                <a id="prueba" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">CANCEL</a>
+                <a class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">CANCEL</a>
             </div>
         </div>
     </div>
@@ -261,40 +261,6 @@
         console.log(output);
         $('#data').val(output);
     });
-
-    // $('#prueba').click(function(){
-    //     var input_value = [];
-    //     var startPointVal = $('.modalFrom').html().substring(1);
-    //     var endPointVal = $('.modalDestination').html().substring(1);
-    //     var distanceVal = parseFloat($('#distance').html());
-    //     var timeVal = parseInt($('#time').html());
-    //     var costVal = parseFloat($('#modalCost').html());
-    //     var driverVal = selectedDriver;
-    //     var json_values = {
-    //         startPoint: startPointVal,
-    //         endPoint: endPointVal,
-    //         distance: distanceVal,
-    //         time: timeVal,
-    //         cost: costVal,
-    //         driver: driverVal
-    //     };
-    //     var url = '/payment';
-    //     $.ajax({
-    //         url: url,
-    //         dataType: 'json',
-    //         data: json_values,
-    //         type: 'GET',
-    //         beforeSend: function () {
-    //         },
-    //         success: function (responseText) {
-    //             console.log(responseText);
-    //         },
-    //         error: function (req, status, err) {
-    //             console.log('Error: ' + err);
-    //             alert(err);
-    //         }
-    //     });
-    // })
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4&callback=initMap">

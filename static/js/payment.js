@@ -26,3 +26,13 @@ $('#othertip').on("change keyup", function(){
 		$('#price').text(price);
 	}
 });
+
+$('#btn-next').click(function() {
+	var price = parseFloat($('#price').html());
+	var creditCard = $('#creditCard').html();
+	var data = JSON.parse($('#data').val());
+	data["cost"] = price;
+	data["creditCard"] = creditCard;
+	var output = JSON.stringify(data);
+	$('#data').val(output);
+});

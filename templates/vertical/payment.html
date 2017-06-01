@@ -69,7 +69,6 @@
         	display:none;
         }
 	</style>
-	<input type="hidden" value="{{ ride_data }}">
 	<div class="row wrapper" style="height: 35%">
 		<div class="col s12 profilePhoto valign-wrapper" style="height: 100%;">
 			<img class="circle" src="../../{{ driverPhoto }}" alt="driver1" style="margin:auto">
@@ -98,16 +97,19 @@
 	</div>
 	<div class="row tip-container">
 		<div class="col s12 card card-container">
-			<i class="material-icons icon-align">credit_card</i><span> {{ current_user.creditCard }}</span>
+			<i class="material-icons icon-align">credit_card</i> <span id="creditCard">{{ current_user.creditCard }}</span>
 		</div>
 	</div>
 	<div class="row price-container">
 		<div class="col s12 center">
 			<h3>$ <span id="price" text="{{ ride_dict.cost }}">{{ ride_dict.cost }}</span></h3>
 		</div>
+		<form method="POST">
+		{{ form.ride_data(id="data", value=ride_data) }}
 		<div class="col s12">
-			<a class="btn btn-large waves-effect waves-light" id="btn-next">NEXT</a>
+			<button type="submit" action="submit" class="btn btn-large waves-effect waves-light" id="btn-next">NEXT</button>
 		</div>
+		</form>
 	</div>
 
 {% endblock %}
