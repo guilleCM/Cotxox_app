@@ -8,6 +8,16 @@ class TestServices(unittest.TestCase):
 		time = 10
 		expected = 13.9625
 		self.assertEqual(expected, Tax.getExpectedPrice(distance, time))
+	def test_getExpectedPricePalmaMagaluf(self):
+		distance = 18
+		time = 23
+		expected = 32.35
+		self.assertEqual(expected, Tax.getExpectedPrice(distance, time))
+	def test_getExpectedPricePalmaManacor(self):
+		distance = 50.6
+		time = 47
+		expected = 84.76
+		self.assertEqual(expected, Tax.getExpectedPrice(distance, time))
 	def test_getExpectedPriceMinPrice(self):
 		distance = 2
 		time = 3
