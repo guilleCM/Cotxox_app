@@ -1,0 +1,268 @@
+{% extends "/vertical/base.html" %}
+
+{% block content_navigation %}
+    <style>
+        .map {
+            height: 55%;
+            margin-bottom: 5%;
+        }
+        .pickup-button a{
+            font-size: 2.5rem;
+        }
+        .card {
+            margin: 10px 10px;
+        }
+        .card .card-content {
+            padding: 0;
+        }
+        .inputs {
+            height: 25%
+        }
+        .pickup-button {
+            margin-top: 5%;
+            height:5%;
+        }
+        #requestLyft {
+            width: 95%;
+        }
+        #waitingDriver {
+            width: 95% !important;
+            overflow: hidden;
+        }
+        .modal.open {
+            top: 10% !important;
+        }
+        .modal-content {
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .btn.lyft {
+            background-color: #ff00bf;
+        }
+        .btn.lyft:hover {
+            background-color: red;
+        }
+        .icon-align {
+            vertical-align: middle;
+        }
+        #carModel {
+            height: 65px;
+        }
+        #carPhoto {
+            height: 65px;
+            float: left;            
+        }
+        #driverPhoto {
+            height: 65px;
+            float: right;
+            margin-left: -59px;
+        }
+    </style>
+    <div class="row map">
+        <div id="googleMap" class="col s12" style="width: 100%;height:100%;"></div>    
+    </div>
+    <div class="row inputs">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">gps_fixed</i>
+                <label for="destination">Destination</label>
+                <input type="text" placeholder="Where you wanna go?" id="destination">
+            </div>
+            <div class="input-field col s12">
+            <i class="material-icons prefix">gps_fixed</i>
+            <label for="from">From</label>
+            <input type="text" value="IES Borja Moll" id="from">
+        </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pickup-button wrapper">
+        <a href="#" class="btn btn-large waves-effect col s10 offset-s1 valign-wrapper" id="pickup"> SET PICKUP
+            <i class="material-icons">near_me</i>
+        </a>
+    </div>
+      <!-- Modal Structure -->
+    <div id="requestLyft" class="modal">
+        <div class="modal-content">
+            <div class="row center">
+              <h4><i class="material-icons">directions_car</i>Lyft</h4><hr>
+            </div>
+            <div class="row">
+                <div class="col s7"><i class="material-icons icon-align">credit_card</i><span>{{ current_user.creditCard }}</span></div>
+                <div class="col s5"><span class="right"><i class="material-icons icon-align">attach_money</i> Cost: <strong id="modalCost"> €</strong></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#352285;">gps_fixed</i> <span class="modalFrom"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#ff00bf;">gps_fixed</i> <span class="modalDestination"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s6"><span><i class="material-icons icon-align">place</i> Dist.: <strong id="distance"></strong> km</span></div>
+                <div class="col s6"><span class="right"><i class="material-icons icon-align">timer</i> Time: <strong id="time"></strong> min</span></div>
+            </div>
+                <hr>
+        </div>
+        <div class="modal-footer center">
+          <a href="#" id="requestDriver" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="waitingDriver" class="modal">
+        <div class="modal-content">
+            <input id="driverId" type="hidden">
+            <div class="row center">
+              <h5 style="color:#ff00bf;">YOUR DRIVER IS HERE</h5><hr>
+            </div>
+            <div class="row">
+                <div class="col s3 center"><span><strong id="carModel"></strong><br><span id="carLicense"></span></span></div>
+                <div class="col s6 center">
+                    <img alt="car" id="carPhoto">
+                    <img alt="driver" id="driverPhoto" class="circle">
+                </div>
+                <div class="col s3 center"><span><strong id="driverName">Conductor</strong></span><br><i class="material-icons icon-align">star</i><span id="averageRate"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#352285;">gps_fixed</i> <span class="modalFrom"></span></div>
+            </div>
+                <hr>
+            <div class="row">
+                <div class="col s12"><i class="material-icons icon-align" style="color:#ff00bf;">gps_fixed</i> <span class="modalDestination"></span></div>
+            </div>
+                <hr>
+        </div>
+        <div class="modal-footer center">
+            <form method="POST">
+            {{ form.ride_data(id="data") }}
+            <div class="col s6">
+                <button type="submit" action="submit" id="goPayment" class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">REQUEST LYFT</a>
+            </div>
+            </form>
+            <div class="col s6">
+                <a class="modal-action modal-close waves-effect waves-green btn lyft" style="float: none;">CANCEL</a>
+            </div>
+        </div>
+    </div>
+    
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var selectedDriver = null;
+        window.onload = function() {
+            $('#requestLyft').modal();
+            $('#waitingDriver').modal();
+        }
+        $('#chat-button').click(function(){
+            $('#chat-content').css("z-index", "11");
+            $('#profile-content').css("z-index", "8");
+        });
+        $('#profile-button').click(function(){
+            $('#profile-content').css("z-index", "11");
+            $('#chat-content').css("z-index", "8");
+        });
+        $('#navigation-button').click(function(){
+            $('#chat-content').css("z-index", "8");
+            $('#profile-content').css("z-index", "8");
+        });
+        function initMap() {
+        var uluru = {lat: 39.568853, lng:  2.667422};
+        var iconBase = 'http://maps.google.com/mapfiles/'
+        var map = new google.maps.Map(document.getElementById('googleMap'), {
+          zoom: 16,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map,
+          icon: iconBase + 'marker.png'
+        });
+      }
+
+      $('#pickup').click(function(){
+        var startPoint = $('#from').val()
+        var endPoint = $('#destination').val()
+        url = "/getParameters/"+startPoint+"-"+endPoint;
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET',
+            beforeSend: function () {
+            },
+            success: function (responseText) {
+                console.log(responseText);
+                $('#requestLyft').modal('open');
+                $('.modalFrom').html(" "+startPoint);
+                $('.modalDestination').html(" "+endPoint);
+                $('#time').html(responseText["time"]);
+                $('#distance').html(responseText["distance"]);
+                $('#modalCost').html(responseText["cost"]);
+            },
+            error: function (req, status, err) {
+                console.log('Error: ' + err);
+                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
+            }
+        });
+      });
+
+    $('#requestDriver').click(function(){
+        url = "/getDriver";
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET',
+            beforeSend: function () {
+            },
+            success: function (responseText) {
+                console.log(responseText);
+                selectedDriver = responseText;
+                $('#waitingDriver').modal('open');
+                $('#driverName').html(responseText["firstName"]);
+                $('#carModel').html(responseText["carModel"]);
+                $('#carLicense').html(responseText["carLicense"]);
+                $('#carPhoto').attr("src", responseText["carPhoto"]);
+                $('#driverPhoto').attr("src", responseText["profilePhoto"]);
+                $('#averageRate').html(responseText["averageRate"]);
+                $('#driverId').val(responseText['id']);
+            },
+            error: function (req, status, err) {
+                console.log('Error: ' + err);
+                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
+            }
+        });
+      });
+    $('#goPayment').click(function() {
+        var input_value = [];
+        var startPointVal = $('.modalFrom').html().substring(1);
+        var endPointVal = $('.modalDestination').html().substring(1);
+        var distanceVal = parseFloat($('#distance').html());
+        var timeVal = parseInt($('#time').html());
+        var costVal = parseFloat($('#modalCost').html());
+        var driverVal = parseInt($('#driverId').val());
+        var json_values = {
+            startPoint: startPointVal,
+            endPoint: endPointVal,
+            distance: distanceVal,
+            time: timeVal,
+            cost: costVal,
+            driver: driverVal
+        };
+        var output = JSON.stringify(json_values);
+        console.log(output);
+        $('#data').val(output);
+    });
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4&callback=initMap">
+    </script>
+{% endblock %}
