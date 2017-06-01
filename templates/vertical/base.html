@@ -13,6 +13,8 @@
     html, body{
       height: 100%;
       width: 100%;
+      margin:0px;
+      padding: 0px;
     }
     .container-fluid{
       height: 100%;
@@ -20,75 +22,25 @@
     .general-content {
       height: 100%;
       width: 100%;
-      background-image: url("../../static/img/backgrounds/clean_textile.png");
-    }
-    .bottom-content {
-      height: 15%;
-      width: 100%;
-      position: fixed;
-      bottom: 0px;
-      z-index: 100;
+      background-image: url("../../static/img/backgrounds/polonez_car.png");
     }
     .row{
       margin-bottom: 0px;
     }
-    .full-height {
-      height: 100%;
-    }
-    .button-custom{
-      margin: auto;
-    }
     .content-block {
       width: 100%;
       height: 100%;
-      position: fixed;
-    }
-    #chat-content {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      background-image: url("../../static/img/backgrounds/clean_textile.png");
-      opacity: 0.85;
-      z-index: 8;
     }
     #navigation-content{
       width: 100%;
       height: 100%;
-      position: fixed;
-      background-image: url("../../static/img/backgrounds/clean_textile.png");
-      z-index: 10;
-    }
-    #profile-content{
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      background-image: url("../../static/img/backgrounds/clean_textile.png");
-      opacity: 0.85;
-      z-index: 8;
     }
   </style>
 	
   <div class="container-fluid">
     <div class="row general-content">
-      <div id="chat-content" class="sub-background">
-        <div id="chat" class="content-block">{% block content_chat %}{% endblock %}</div>
-      </div>
       <div id="navigation-content" class="main-background">
         <div id="navigation" class="content-block">{% block content_navigation %}{% endblock %}</div>
-      </div>
-      <div id="profile-content" class="sub-background">
-        <div id="profile" class="content-block">{% block content_profile %}{% endblock %}</div>
-      </div>
-    </div>
-    <div class="row bottom-content center">
-      <div class="col s4 full-height valign-wrapper">
-        <a href="#" id="chat-button" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">mail</i> </a>
-      </div>
-      <div class="col s4 full-height valign-wrapper">
-        <a href="#" id="navigation-button" class="btn btn-large btn-floating pulse valign button-custom blue"> <i class="material-icons">navigation</i> </a>
-      </div>
-      <div class="col s4 full-height valign-wrapper">
-        <a href="#" id="profile-button" class="btn btn-large btn-floating pulse valign button-custom"> <i class="material-icons">person</i> </a>
       </div>
     </div>
   </div>
