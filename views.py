@@ -1,21 +1,52 @@
-from flask import render_template, redirect, flash, url_for, session
-from forms import LoginForm, SignupForm
+from flask import render_template, redirect, flash, url_for, session, request
+from forms import LoginForm, SignupForm, RideForm
 from datetime import timedelta
 from flask_login import current_user, login_required, login_user, logout_user
-
+import ast
 from middleware.Utils import Utils
+from controllers.services import ProviderAPI
 
 from app import app, db, login_manager
-from models import Users
+from models import Users, Drivers, Rates
 
 @app.route('/')
-@app.route('/index')
+@app.route('/setpickup', methods=['GET', 'POST'])
 @login_required
-def index():
+def setpickup():
+	form = RideForm()
 	device = Utils.getDevice()
-	return render_template("/"+device+"/index.html",
+	if request.method == 'POST':
+		ride_data = form.ride_data.data
+		return redirect(url_for('payment', ride_data=ride_data))
+	return render_template("/"+device+"/setpickup.html",
 							device=device,
-							)
+							form=form)
+
+@app.route('/payment/<ride_data>', methods=['GET', 'POST'])
+@login_required
+def payment(ride_data):
+	form = RideForm()
+	ride_dict = ast.literal_eval(ride_data)
+	driver = Drivers.query.filter_by(id=ride_dict['driver']).first()
+	driverPhoto = driver.profilePhoto
+	device = Utils.getDevice()
+	if request.method == 'POST':
+		ride_data = form.ride_data.data
+		return redirect(url_for('rate', ride_data=ride_data))
+	return render_template("/"+device+"/payment.html",
+							device=device,
+							ride_dict=ride_dict,
+							ride_data=ride_data,
+							driverPhoto=driverPhoto,
+							form=form)
+
+@app.route('/rate/<ride_data>')
+@login_required
+def rate(ride_data):
+	device = Utils.getDevice()
+	return render_template("/"+device+"/rate.html",
+							device=device,
+							ride_data=ride_data)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -42,6 +73,17 @@ def signup():
 	return render_template("signup.html",
 							form=form)
 
+@app.route('/getParameters/<startPoint>-<endPoint>')
+def getParameters(startPoint, endPoint):
+	parameters = ProviderAPI.getRidePreview(startPoint, endPoint)
+	return parameters
+
+@app.route('/getDriver')
+@login_required
+def getDriver():
+	driver = ProviderAPI.getDriver();
+	return driver
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -50,15 +92,26 @@ def login():
 		password = form.password.data
 		user = Users.query.filter_by(email=email).first()
 		if user is not None and user.get_password() == password:
-			# numId = user.get_id()
 			login_user(user)
-			return redirect(url_for('index'))
+			return redirect(url_for('setpickup'))
 		else:
 			flash('Incorrect login', 'red')
 			return redirect(url_for('login'))
 	return render_template("login.html",
 							form=form,
 							)
+
+@app.route('/admin')
+def admin():
+	users_list = Users.query.all()
+	drivers_list = Drivers.query.all()
+	rates_list = Rates.query.all()
+	device = Utils.getDevice()
+	return render_template("/"+device+"/admin.html",
+							device=device,
+							drivers_list=drivers_list,
+							users_list=users_list,
+							rates_list=rates_list)
 
 @login_manager.user_loader
 def load_user(id):
