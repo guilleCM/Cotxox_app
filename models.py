@@ -70,7 +70,8 @@ class Rides(db.Model):
     id = db.Column('ride_id', db.Integer, primary_key=True)
     startPoint = db.Column('startPoint', db.String(50), index=True)
     endPoint = db.Column('endPoint', db.String(50), index=True)
-    expectedTimeMin = db.Column('expectedTimeMin', db.Integer, index=True)
+    time = db.Column('time', db.Integer, index=True)
+    distance = db.Column('distance', db.Float(4), index=True)
     cost = db.Column('cost', db.Float(4), index=True)
     tip = db.Column('tip', db.Float(4), index=True, default=0.0)
     creditCard = db.Column('creditCard', db.String(16), index=True)
@@ -82,4 +83,4 @@ class Rides(db.Model):
     idRate = db.Column(db.Integer, db.ForeignKey('Rates.rate_id'))
 
     def __repr__(self):
-        return '<id %r>, <Start Point %r>, <End Point %r>, <Expected Time(min) %r>, <Cost %r>, <Tip %r>, <Credit Card %r>, <Id User %r>, <Id Driver %r>, <Id Rate %r>' % (self.id, self.startPoint, self.endPoint, self.expectedTimeMin, self.cost, self.tip, self.creditCard, self.idUser, self.idDriver, self.idRate) 
+        return '<id %r>, <Start Point %r>, <End Point %r>, <Expected Time(min) %r>, <Distance %r>, <Cost %r>, <Tip %r>, <Credit Card %r>, <Id User %r>, <Id Driver %r>, <Id Rate %r>' % (self.id, self.startPoint, self.endPoint, self.time, self.distance, self.cost, self.tip, self.creditCard, self.idUser, self.idDriver, self.idRate) 

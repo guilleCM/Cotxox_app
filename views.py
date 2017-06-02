@@ -67,8 +67,12 @@ def rate(ride_data):
 def finish(idRide):
 	device = Utils.getDevice()
 	ride = Rides.query.get(idRide)
+	rate = Rates.query.get(ride.idRate)
+	driver = Drivers.query.get(ride.idDriver)
 	return render_template ('/'+device+'/finish.html',
-						ride=ride)
+							ride=ride,
+							rate=rate,
+							driver=driver)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -128,12 +132,14 @@ def admin():
 	users_list = Users.query.all()
 	drivers_list = Drivers.query.all()
 	rates_list = Rates.query.all()
+	rides_list = Rides.query.all()
 	device = Utils.getDevice()
 	return render_template("/"+device+"/admin.html",
 							device=device,
 							drivers_list=drivers_list,
 							users_list=users_list,
-							rates_list=rates_list)
+							rates_list=rates_list,
+							rides_list=rides_list)
 
 @login_manager.user_loader
 def load_user(id):

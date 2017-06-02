@@ -102,7 +102,40 @@
 			</tbody>
 		</table>
 	</div>	
-	<div id="rides" class="col s12">Tabla rides</div>
+	<div id="rides" class="col s12">
+		<table class="striped custom-table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Start</th>
+					<th>End</th>
+					<th>Time</th>
+					<th>Dist</th>
+					<th>Cost</th>
+					<th>Tip</th>
+					<th>idUser</th>
+					<th>idDriver</th>
+					<th>idRate</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for ride in rides_list %}
+				<tr>
+					<td>{{ ride.id }}</td>
+					<td>{{ ride.startPoint }}</td>
+					<td>{{ ride.endPoint }}</td>
+					<td>{{ ride.time }}</td>
+					<td>{{ ride.distance }}</td>
+					<td>{{ ride.cost }}</td>
+					<td>{{ ride.tip }}</td>
+					<td>{{ ride.idUser }}</td>
+					<td>{{ ride.idDriver }}</td>
+					<td>{{ ride.idRate }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>		
+	</div>
 </div>
 
 {% endblock %}

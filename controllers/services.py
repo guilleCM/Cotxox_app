@@ -115,13 +115,14 @@ class ProviderAPI:
 	def createRide(ride_dict, idRate):
 		startPoint = ride_dict['startPoint']
 		endPoint = ride_dict['endPoint']
-		expectedTimeMin = ride_dict['time']
+		time = ride_dict['time']
+		distance = ride_dict['distance']
 		cost = ride_dict['cost']
-		tip = ride_dict['cost']
+		tip = ride_dict['tip']
 		creditCard = ride_dict['creditCard']
 		idUser = ride_dict['user']
 		idDriver = ride_dict['driver']
-		ride = Rides(startPoint=startPoint, endPoint=endPoint, expectedTimeMin=expectedTimeMin,
+		ride = Rides(startPoint=startPoint, endPoint=endPoint, time=time, distance=distance,
 					cost=cost, tip=tip, creditCard=creditCard, idUser=idUser, idDriver=idDriver,
 					idRate=idRate)
 		db.session.add(ride)

@@ -14,14 +14,25 @@
             height: 60%;
         }
     </style>
-    <div class="row wrapper title-container">
-        <div class="col s12 valign-wrapper" style="height: 100%">
-            <span class="title"><b>THANK YOU FOR USING COTXOX</b></span>
-        </div>
-    </div>
-    <div class="row ride-info">
-        <div class="card col s10 offset-s1">
-            <span><b>Here's the info about your ride:</b><span>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title"><h4>Thank You for using Cotxox!</h4></span>
+                    <h5>Ride info:</h5>
+                    <p><b>From: </b>{{ ride.startPoint }}</p>
+                    <p><b>To: </b>{{ ride.endPoint }}</p>
+                    <p><b>Distance: </b>{{ ride.distance }} km</p>
+                    <p><b>Time: </b>{{ ride.time }} min</p>
+                    <p><b>Cost: </b>{{ ride.cost }} $</p>
+                    <p><b>Tip: </b>{{ ride.tip }} $</p>
+                    <p><b>Driver: </b>{{ driver.firstName }}</p>
+                    <p><b>Rate: </b>{{ rate.rate }}</p>
+                </div>
+                <div class="card-action center">
+                    <a href='{{ url_for("setpickup") }}' class="waves-effect waves-light btn">RIDE AGAIN</a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
