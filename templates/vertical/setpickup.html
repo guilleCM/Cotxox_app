@@ -68,12 +68,12 @@
             <div class="input-field col s12">
                 <i class="material-icons prefix">gps_fixed</i>
                 <label for="destination">Destination</label>
-                <input type="text" placeholder="Where you wanna go?" id="destination">
+                <input type="text" value="Plaza España, Palma" placeholder="Where you wanna go?" id="destination">
             </div>
             <div class="input-field col s12">
             <i class="material-icons prefix">gps_fixed</i>
             <label for="from">From</label>
-            <input type="text" value="IES Borja Moll" id="from">
+            <input type="text" value="IES Francesc Borja Moll, Palma" id="from">
         </div>
             </div>
             </div>
@@ -163,6 +163,19 @@
             $('#requestLyft').modal();
             $('#waitingDriver').modal();
         }
+
+        $(document).ready(function(){
+            $("#from").change(function(){
+                if ($(this).val() == '') {
+                    $(this).val() = 'IES Francesc Borja Moll, Illes Balears'
+                }
+                initMap();
+            });
+            $("#destination").change(function(){
+                initMap();
+            });
+        });
+
         $('#chat-button').click(function(){
             $('#chat-content').css("z-index", "11");
             $('#profile-content').css("z-index", "8");
@@ -175,19 +188,40 @@
             $('#chat-content').css("z-index", "8");
             $('#profile-content').css("z-index", "8");
         });
-        function initMap() {
-        var uluru = {lat: 39.568853, lng:  2.667422};
-        var iconBase = 'http://maps.google.com/mapfiles/'
+
+      //SCRIPT GOOGLE MAPS
+      function initMap() {
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var mapOrigin=$('#from').val();
+        var mapDestination=$('#destination').val();
         var map = new google.maps.Map(document.getElementById('googleMap'), {
-          zoom: 16,
-          center: uluru
+          zoom: 14,
+          center: {lat: 37.77, lng: -122.447}
         });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map,
-          icon: iconBase + 'marker.png'
+        directionsDisplay.setMap(map);
+
+        calculateAndDisplayRoute(directionsService, directionsDisplay, mapOrigin, mapDestination);
+        // document.getElementById('mode').addEventListener('change', function() {
+        //   calculateAndDisplayRoute(directionsService, directionsDisplay);
+        // });
+      };  
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay, mapOrigin, mapDestination) {
+        var selectedMode = 'DRIVING';
+        directionsService.route({
+          origin: mapOrigin,
+          destination: mapDestination,
+          travelMode: google.maps.TravelMode[selectedMode]
+        }, function(response, status) {
+          if (status == 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
         });
-      }
+      };
+      //END SCRIPT GOOGLE MAPS
 
       $('#pickup').click(function(){
         var startPoint = $('#from').val()
