@@ -1,45 +1,7 @@
 {% extends "/vertical/base.html" %}
 
 {% block content_navigation %}
-	<style>
-		img {
-			box-shadow: 3px 12px 13px 3px rgba(0,0,0,0.35), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
-		}
-		.next-container{
-        	bottom: 15%;
-		    position: fixed;
-		    width: 100%;
-        }
-		.rate-container{
-			margin-top: 10%;
-		}
-		.material-icons {
-			color: rgba(255, 255, 255, 1);
-			text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-			font-size: 15vmin;
-			cursor: pointer;
-		}
-		.material-icons:hover {
-			color: #ff00bf;
-			text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-			font-size: 19vmin;
-			cursor: pointer;
-		}
-		.active {
-			color: #ff00bf;
-			text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-			font-size: 17vmin;
-			cursor: pointer;
-		}
-		#btn-rate{
-			width: 95%;
-			margin-left: 2.5%;
-			font-size: 2.5rem;
-		}
-		h5 {
-			font-size: 1.80rem;
-		}
-	</style>
+	<link type="text/css" rel="stylesheet" href="../static/css/rate.css" />
 	<div class="row wrapper" style="height: 40%">
 		<div class="col s12 profilePhoto valign-wrapper" style="height: 100%;">
 			<img class="circle" src="../../{{ driver.profilePhoto }}" alt="driver1" style="margin:auto; height: 60%;">
@@ -70,41 +32,5 @@
 {% endblock %}
 
 {% block javascript %}
-	<script>
-	$('.rates i').click(function() {
-		var index = $(this).index();
-		var position = 0;
-		for(var i = 0; i<= index; i++){
-			$('.rates :nth-child('+(i+1)+')').addClass('active');
-			$('.rates :nth-child('+(i+1)+')').removeAttr('id', 'selected');
-			position++;
-		}
-		for(var i = position; i<= 4; i++){
-			$('.rates :nth-child('+(i+1)+')').removeClass('active');
-			$('.rates :nth-child('+(i+1)+')').removeAttr('id', 'selected');
-		}
-		$(this).attr('id', 'selected');
-	});
-	$('.rates i').hover(function() {
-		var index = $(this).index();
-		var position = 0;
-		for(var i = 0; i<= index; i++){
-			$('.rates :nth-child('+(i+1)+')').addClass('active');
-			position++;
-		}
-		for(var i = position; i<= 4; i++){
-			$('.rates :nth-child('+(i+1)+')').removeClass('active');
-		}
-	});
-
-	$('#btn-rate').click(function(){
-		var rate = $('#selected').index() + 1;
-		var dict = JSON.parse($('#data').val());
-		dict['rate'] = rate;
-		var output = JSON.stringify(dict);
-		$('#data').val(output);
-		console.log(dict);
-	});
-	</script>
-	<script src="../../static/js/payment.js"></script>
+	<script src="../../static/js/rate.js"></script>
 {% endblock %}

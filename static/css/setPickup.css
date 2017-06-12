@@ -1,0 +1,55 @@
+.map {
+    height: 55%;
+    margin-bottom: 5%;
+}
+.pickup-button a{
+    font-size: 2.5rem;
+}
+.card {
+    margin: 10px 10px;
+}
+.card .card-content {
+    padding: 0;
+}
+.inputs {
+    height: 25%
+}
+.pickup-button {
+    margin-top: 5%;
+    height:5%;
+}
+#requestLyft {
+    width: 95%;
+}
+#waitingDriver {
+    width: 95% !important;
+    overflow: hidden;
+}
+.modal.open {
+    top: 10% !important;
+}
+.modal-content {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.btn.lyft {
+    background-color: #ff00bf;
+}
+.btn.lyft:hover {
+    background-color: red;
+}
+.icon-align {
+    vertical-align: middle;
+}
+#carModel {
+    height: 65px;
+}
+#carPhoto {
+    height: 65px;
+    float: left;            
+}
+#driverPhoto {
+    height: 65px;
+    float: right;
+    margin-left: -59px;
+}

@@ -24,6 +24,11 @@ class Tax:
 		if total < minCost:
 			total = minCost
 		return total
+	
+	@staticmethod
+	def getPercentatgeCotxox(cost, percentageCotxox=percentageCotxox):
+		cotxoxProfit = cost * percentageCotxox
+		return cotxoxProfit
 
 class ProviderAPI:
 	@staticmethod
@@ -130,3 +135,14 @@ class ProviderAPI:
 		idRide = ride.id
 
 		return idRide
+
+	@staticmethod
+	def createPayment(ride_dict, idRide):
+		idRide = idRide
+		idDriver = ride_dict['driver']
+		cost = ride_dict['cost']
+		cotxoxProfit = Tax.getPercentatgeCotxox(cost)
+		driverProfit = cost - cotxoxProfit
+		payment = Payments(idRide=idRide, idDriver=idDriver, driverProfit=round(driverProfit, 2), cotxoxProfit=round(cotxoxProfit, 2))
+		db.session.add(payment)
+		db.session.commit()

@@ -1,63 +1,7 @@
 {% extends "/vertical/base.html" %}
 
 {% block content_navigation %}
-    <style>
-        .map {
-            height: 55%;
-            margin-bottom: 5%;
-        }
-        .pickup-button a{
-            font-size: 2.5rem;
-        }
-        .card {
-            margin: 10px 10px;
-        }
-        .card .card-content {
-            padding: 0;
-        }
-        .inputs {
-            height: 25%
-        }
-        .pickup-button {
-            margin-top: 5%;
-            height:5%;
-        }
-        #requestLyft {
-            width: 95%;
-        }
-        #waitingDriver {
-            width: 95% !important;
-            overflow: hidden;
-        }
-        .modal.open {
-            top: 10% !important;
-        }
-        .modal-content {
-            padding-left: 0px !important;
-            padding-right: 0px !important;
-        }
-        .btn.lyft {
-            background-color: #ff00bf;
-        }
-        .btn.lyft:hover {
-            background-color: red;
-        }
-        .icon-align {
-            vertical-align: middle;
-        }
-        #carModel {
-            height: 65px;
-        }
-        #carPhoto {
-            height: 65px;
-            float: left;            
-        }
-        #driverPhoto {
-            height: 65px;
-            float: right;
-            margin-left: -59px;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="../static/css/setPickup.css" />
     <div class="row map">
         <div id="googleMap" class="col s12" style="width: 100%;height:100%;"></div>    
     </div>
@@ -68,7 +12,7 @@
             <div class="input-field col s12">
                 <i class="material-icons prefix">gps_fixed</i>
                 <label for="destination">Destination</label>
-                <input type="text" value="Plaza España, Palma" placeholder="Where you wanna go?" id="destination">
+                <input type="text" value="Estacion Intermodal, Palma" placeholder="Where you wanna go?" id="destination">
             </div>
             <div class="input-field col s12">
             <i class="material-icons prefix">gps_fixed</i>
@@ -157,145 +101,7 @@
 {% endblock %}
 
 {% block javascript %}
-    <script>
-        var selectedDriver = null;
-        window.onload = function() {
-            $('#requestLyft').modal();
-            $('#waitingDriver').modal();
-        }
-
-        $(document).ready(function(){
-            $("#from").change(function(){
-                if ($(this).val() == '') {
-                    $(this).val() = 'IES Francesc Borja Moll, Illes Balears'
-                }
-                initMap();
-            });
-            $("#destination").change(function(){
-                initMap();
-            });
-        });
-
-        $('#chat-button').click(function(){
-            $('#chat-content').css("z-index", "11");
-            $('#profile-content').css("z-index", "8");
-        });
-        $('#profile-button').click(function(){
-            $('#profile-content').css("z-index", "11");
-            $('#chat-content').css("z-index", "8");
-        });
-        $('#navigation-button').click(function(){
-            $('#chat-content').css("z-index", "8");
-            $('#profile-content').css("z-index", "8");
-        });
-
-      //SCRIPT GOOGLE MAPS
-      function initMap() {
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var directionsService = new google.maps.DirectionsService;
-        var mapOrigin=$('#from').val();
-        var mapDestination=$('#destination').val();
-        var map = new google.maps.Map(document.getElementById('googleMap'), {
-          zoom: 14,
-          center: {lat: 37.77, lng: -122.447}
-        });
-        directionsDisplay.setMap(map);
-
-        calculateAndDisplayRoute(directionsService, directionsDisplay, mapOrigin, mapDestination);
-        // document.getElementById('mode').addEventListener('change', function() {
-        //   calculateAndDisplayRoute(directionsService, directionsDisplay);
-        // });
-      };  
-
-      function calculateAndDisplayRoute(directionsService, directionsDisplay, mapOrigin, mapDestination) {
-        var selectedMode = 'DRIVING';
-        directionsService.route({
-          origin: mapOrigin,
-          destination: mapDestination,
-          travelMode: google.maps.TravelMode[selectedMode]
-        }, function(response, status) {
-          if (status == 'OK') {
-            directionsDisplay.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-      };
-      //END SCRIPT GOOGLE MAPS
-
-      $('#pickup').click(function(){
-        var startPoint = $('#from').val()
-        var endPoint = $('#destination').val()
-        url = "/getParameters/"+startPoint+"-"+endPoint;
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'GET',
-            beforeSend: function () {
-            },
-            success: function (responseText) {
-                console.log(responseText);
-                $('#requestLyft').modal('open');
-                $('.modalFrom').html(" "+startPoint);
-                $('.modalDestination').html(" "+endPoint);
-                $('#time').html(responseText["time"]);
-                $('#distance').html(responseText["distance"]);
-                $('#modalCost').html(responseText["cost"]);
-            },
-            error: function (req, status, err) {
-                console.log('Error: ' + err);
-                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
-            }
-        });
-      });
-
-    $('#requestDriver').click(function(){
-        url = "/getDriver";
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'GET',
-            beforeSend: function () {
-            },
-            success: function (responseText) {
-                console.log(responseText);
-                selectedDriver = responseText;
-                $('#waitingDriver').modal('open');
-                $('#driverName').html(responseText["firstName"]);
-                $('#carModel').html(responseText["carModel"]);
-                $('#carLicense').html(responseText["carLicense"]);
-                $('#carPhoto').attr("src", responseText["carPhoto"]);
-                $('#driverPhoto').attr("src", responseText["profilePhoto"]);
-                $('#averageRate').html(responseText["averageRate"]);
-                $('#driverId').val(responseText['id']);
-            },
-            error: function (req, status, err) {
-                console.log('Error: ' + err);
-                alert("Esta ruta no es válida. \nPor favor, pide un avión!")
-            }
-        });
-      });
-    $('#goPayment').click(function() {
-        var input_value = [];
-        var startPointVal = $('.modalFrom').html().substring(1);
-        var endPointVal = $('.modalDestination').html().substring(1);
-        var distanceVal = parseFloat($('#distance').html());
-        var timeVal = parseInt($('#time').html());
-        var costVal = parseFloat($('#modalCost').html());
-        var driverVal = parseInt($('#driverId').val());
-        var json_values = {
-            startPoint: startPointVal,
-            endPoint: endPointVal,
-            distance: distanceVal,
-            time: timeVal,
-            cost: costVal,
-            driver: driverVal
-        };
-        var output = JSON.stringify(json_values);
-        console.log(output);
-        $('#data').val(output);
-    });
-    </script>
+    <script src="../../static/js/setPickup.js"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYu65s-BcSNwfqQuEAZMq8RqUM-D8yb-4&callback=initMap">
     </script>

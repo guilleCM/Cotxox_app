@@ -53,6 +53,7 @@ def rate(ride_data):
 		ride_dict['user'] = current_user.id
 		idRate = ProviderAPI.createRate(ride_dict)
 		idRide = ProviderAPI.createRide(ride_dict, idRate)
+		ProviderAPI.createPayment(ride_dict, idRide)
 		return redirect(url_for('finish', idRide=idRide))
 	return render_template("/"+device+"/rate.html",
 							device=device,
@@ -140,6 +141,21 @@ def admin():
 							users_list=users_list,
 							rates_list=rates_list,
 							rides_list=rides_list)
+
+@app.route('/statistics')
+@login_required
+def statistics():
+	drivers= Drivers.query.all()
+	driversArray = []
+
+	for driver in drivers:
+		driverName = str(driver.firstName)
+		totalRides = Rides.query.filter_by(idDriver=driver.id).count()
+		driversArray.append([driverName, totalRides])
+
+	device = Utils.getDevice()
+	return render_template("/"+device+"/statistics.html",
+							driversArray=driversArray)
 
 @login_manager.user_loader
 def load_user(id):
