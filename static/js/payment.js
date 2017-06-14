@@ -1,5 +1,7 @@
+var audio = new Audio('../../static/audio/cando.mp3');
 var price = parseFloat($('#price').text());
 $(document).ready(function(){
+	audio.play();
 	var tipPrice = price+1;
 	$('#price').text(tipPrice);
 });

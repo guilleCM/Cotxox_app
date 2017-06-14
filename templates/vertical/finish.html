@@ -26,5 +26,10 @@
 {% endblock %}
 
 {% block javascript %}
-
+<script>
+var audio = new Audio('../../static/audio/race.mp3');
+$(document).ready(function(){
+    audio.play();
+});
+</script>
 {% endblock %}

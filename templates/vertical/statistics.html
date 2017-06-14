@@ -1,28 +1,86 @@
-<html>
-  <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(
-          [['Rides', 'Total Rides'],
-          {% for driver in driversArray %}
-            ["{{ driver[0] }}", {{ driver[1] }}],
-            {% endfor %}
-          ]);
+{% extends "/vertical/base.html" %}
 
-        var options = {
-          title: 'Rides per Driver',
-          pieHole: 0.4,
-        };
+{% block content_navigation %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<style>
+  .chart {
+    width: 100%;
+    min-height: 300px;
+  }
+  .icon-align {
+      vertical-align: middle;
+  }
+  .header-panel {
+    background: #26a69a;
+    color: white;
+  }
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-    </script>
-  </head>
-  <body>
-    <div id="donutchart" style="width: 900px; height: 500px;"></div>
-  </body>
-</html>
+</style>
+<div class="row">
+  <div class="col s12 header-panel">
+    <h5>COTXOX<small class="right"><i class="material-icons icon-align">settings_applications</i>STATISTICS</small></h5>
+  </div>
+  <div class="col s12 m6">
+    <div id="chart_div1" class="chart"></div>
+  </div>
+  <div class="col s12 m6">
+    <div id="chart_div2" class="chart"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+var audio = new Audio('../../static/audio/theme.mp3');
+$(document).ready(function(){
+  //audio.play();
+});
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart1);
+function drawChart1() {
+  var data = google.visualization.arrayToDataTable([
+      ['Rides', 'Total Rides'],
+      {% for driver in driversArray %}
+        ["{{ driver[0] }}", {{ driver[1] }}],
+        {% endfor %}
+      ]);
+
+  var options = {
+    title: 'Rides per driver',
+    pieHole: 0.2,
+ };
+
+var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+  chart.draw(data, options);
+}
+
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart2);
+function drawChart2() {
+  var data = google.visualization.arrayToDataTable([
+    ['Year', 'Sales', 'Expenses'],
+    ['2013',  1000,      400],
+    ['2014',  1170,      460],
+    ['2015',  660,       1120],
+    ['2016',  1030,      540]
+  ]);
+
+  var options = {
+    title: 'Company Performance',
+    hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+    vAxis: {minValue: 0}
+  };
+
+  var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
+  chart.draw(data, options);
+}
+
+$(window).resize(function(){
+  drawChart1();
+  drawChart2();
+});
+</script>
+
+
+{% endblock %}
