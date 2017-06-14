@@ -7,7 +7,7 @@ from middleware.Utils import Utils
 from controllers.services import ProviderAPI
 
 from app import app, db, login_manager
-from models import Users, Drivers, Rates, Rides
+from models import Users, Drivers, Rates, Rides, Payments
 
 @app.route('/')
 @app.route('/setpickup', methods=['GET', 'POST'])
@@ -147,15 +147,23 @@ def admin():
 def statistics():
 	drivers= Drivers.query.all()
 	driversArray = []
-
+	costsArray=[]
 	for driver in drivers:
 		driverName = str(driver.firstName)
 		totalRides = Rides.query.filter_by(idDriver=driver.id).count()
 		driversArray.append([driverName, totalRides])
+		payments = Payments.query.filter_by(idDriver=driver.id).all()
+		driverProfit = 0
+		cotxoxProfit = 0
+		for payment in payments:
+			driverProfit+=payment.driverProfit
+			cotxoxProfit+=payment.cotxoxProfit
+		costsArray.append([driverName, driverProfit, cotxoxProfit])
 
 	device = Utils.getDevice()
 	return render_template("/"+device+"/statistics.html",
-							driversArray=driversArray)
+							driversArray=driversArray,
+							costsArray=costsArray)
 
 @login_manager.user_loader
 def load_user(id):
